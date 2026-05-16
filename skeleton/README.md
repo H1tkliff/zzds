@@ -193,3 +193,24 @@ DATABASE_URL="mysql://symfony:symfony@database:3306/symfony_app?serverVersion=8.
 
 
 sudo chown -R $USER:$USER skeleton
+
+Migrations
+docker compose exec php php bin/console make:migration
+docker compose exec php php bin/console doctrine:migrations:migrate
+
+Make Entity
+php bin/console make:entity Team
+
+Make Controlle
+php bin/console make:controller TeamController
+
+Fixtures Testdaten
+composer require --dev doctrine/doctrine-fixtures-bundle
+
+
+{{ variable }}         {# Ausgabe — mit auto-Escaping (kein XSS) #}
+{% for x in liste %}  {# Schleife #}
+{% if bedingung %}    {# Bedingung #}
+{% extends '...' %}   {# Template-Vererbung #}
+{% block name %}      {# Bereich der überschrieben werden kann #}
+{{ path('route') }}   {# URL generieren #}

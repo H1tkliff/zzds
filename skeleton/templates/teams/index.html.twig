@@ -1,0 +1,24 @@
+{# templates/team/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Teams{% endblock %}
+
+{% block body %}
+    <h1>Alle Teams</h1>
+
+    {% for team in teams %}
+        <div>
+            <h2>{{ team.name }}</h2>
+
+            {# Relation direkt abrufen — Doctrine macht JOIN automatisch #}
+            {% for player in team.players %}
+                <p>{{ player.nickname }} — Rating: {{ player.rating }}</p>
+            {% endfor %}
+
+            {# Link zur Detailseite #}
+           <a href="{{ path('team_show', {id: team.id}) }}">Details</a>
+        </div>
+    {% else %}
+        <p>Keine Teams gefunden.</p>
+    {% endfor %}
+{% endblock %}

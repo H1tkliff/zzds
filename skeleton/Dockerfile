@@ -9,7 +9,7 @@ FROM php:8.1-cli
 # - intl — интернационализация, нужна Symfony
 RUN apt-get update && apt-get install -y \
     git curl unzip libzip-dev libicu-dev \
-    && docker-php-ext-install pdo pdo_mysql zip intl
+    && docker-php-ext-install pdo pdo_mysql zip intl dom
 
 # Копируем готовый бинарник Composer из официального образа
 # Не устанавливаем вручную — просто берём из другого образа
