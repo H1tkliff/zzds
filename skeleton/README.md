@@ -204,6 +204,10 @@ php bin/console make:entity Team
 Make Controlle
 php bin/console make:controller TeamController
 
+Make Form
+php bin/console make:form TeamType
+
+
 Fixtures Testdaten
 composer require --dev doctrine/doctrine-fixtures-bundle
 
@@ -214,3 +218,52 @@ composer require --dev doctrine/doctrine-fixtures-bundle
 {% extends '...' %}   {# Template-Vererbung #}
 {% block name %}      {# Bereich der überschrieben werden kann #}
 {{ path('route') }}   {# URL generieren #}
+
+
+Die messenger_messages Tabelle ist eine automatisch von Symfony erstellte
+Datenbanktabelle für den Symfony Messenger.
+
+Was sie macht
+
+Symfony Messenger ist ein System für asynchrone Nachrichtenverarbeitung (Message
+Queue). Wenn eine Nachricht (z.B. eine E-Mail) nicht sofort verarbeitet werden soll,
+wird sie in die Datenbank gespeichert und später von einem Worker verarbeitet.
+
+Tabellenstruktur
+
+┌────────────┬───────────────────────────────────────────────┐
+│    Spalte    │                 Beschreibung                  │
+├──────────────┼───────────────────────────────────────────────┤
+│ id           │ Eindeutige ID der Nachricht                   │
+├──────────────┼───────────────────────────────────────────────┤
+│ body         │ Serialisierter Nachrichteninhalt              │
+├──────────────┼───────────────────────────────────────────────┤
+│ headers      │ Metadaten der Nachricht                       │
+├──────────────┼───────────────────────────────────────────────┤
+│ queue_name   │ Name der Warteschlange (z.B. default, failed) │
+├──────────────┼───────────────────────────────────────────────┤
+│ created_at   │ Wann die Nachricht erstellt wurde             │
+├──────────────┼───────────────────────────────────────────────┤
+│ available_at │ Wann die Nachricht verarbeitbar ist           │
+├──────────────┼───────────────────────────────────────────────┤
+│ delivered_at │ Wann ein Worker die Nachricht übernommen hat  │
+└──────────────┴───────────────────────────────────────────────┘
+
+In deinem Projekt
+
+Laut messenger.yaml hast du zwei Transports:
+
+- async — nutzt MESSENGER_TRANSPORT_DSN (vermutlich auch Doctrine/DB)
+- failed — doctrine://default?queue_name=failed — fehlgeschlagene Nachrichten landen
+  hier
+
+Folgende Nachrichten werden asynchron versendet:
+- E-Mails (SendEmailMessage)
+- Chat-Nachrichten (ChatMessage)
+- SMS-Nachrichten (SmsMessage)
+
+Kurzgefasst
+
+Du musst diese Tabelle nicht manuell verwalten — Symfony füllt sie automatisch. Sie
+existiert, weil das symfony/messenger Paket installiert ist. Wenn du keine asynchronen
+Nachrichten nutzt, hat die Tabelle keinen Einfluss auf dein Projekt.

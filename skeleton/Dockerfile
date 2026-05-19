@@ -26,4 +26,4 @@ WORKDIR /app
 # Команда которая запускается при старте контейнера:
 # запускаем встроенный веб-сервер Symfony на порту 8080
 # --no-tls и --allow-http — без HTTPS (для локальной разработки)
-CMD ["symfony", "server:start", "--no-tls", "--port=8080", "--allow-http", "--allow-all-ip"]
+CMD ["symfony", "server:start", "--no-tls", "--listen=0.0.0.0:8080", "--allow-http"]
