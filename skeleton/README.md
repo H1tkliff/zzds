@@ -210,6 +210,7 @@ php bin/console make:form TeamType
 
 Fixtures Testdaten
 composer require --dev doctrine/doctrine-fixtures-bundle
+docker compose exec php php bin/console doctrine:fixtures:load
 
 
 {{ variable }}         {# Ausgabe — mit auto-Escaping (kein XSS) #}
@@ -267,3 +268,6 @@ Kurzgefasst
 Du musst diese Tabelle nicht manuell verwalten — Symfony füllt sie automatisch. Sie
 existiert, weil das symfony/messenger Paket installiert ist. Wenn du keine asynchronen
 Nachrichten nutzt, hat die Tabelle keinen Einfluss auf dein Projekt.
+
+
+php bin/console make:security - authenticator
