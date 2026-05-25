@@ -199,13 +199,13 @@ docker compose exec php php bin/console make:migration
 docker compose exec php php bin/console doctrine:migrations:migrate
 
 Make Entity
-php bin/console make:entity Team
+docker compose exec php php bin/console make:entity Team
 
 Make Controlle
-php bin/console make:controller TeamController
+docker compose exec php php bin/console make:controller TeamController
 
 Make Form
-php bin/console make:form TeamType
+docker compose exec php php bin/console make:form TeamType
 
 
 Fixtures Testdaten
@@ -271,3 +271,38 @@ Nachrichten nutzt, hat die Tabelle keinen Einfluss auf dein Projekt.
 
 
 php bin/console make:security - authenticator
+
+For npm i use --legacy-peer-deps 
+
+
+Stimulus
+Stimulus Controller sind JavaScript-Klassen die HTML-Elementen Verhalten hinzufügen.
+
+Prinzip: Ein HTML-Element bekommt ein data-controller Attribut → Stimulus instanziiert automatisch
+den passenden Controller.
+
+  <div data-controller="hello">
+      <button data-action="click->hello#greet">Klick mich</button>
+      <span data-hello-target="output"></span>
+  </div>
+
+// assets/controllers/hello_controller.js
+import { Controller } from '@hotwired/stimulus';
+
+export default class extends Controller {
+static targets = ['output'];
+
+      greet() {
+          this.outputTarget.textContent = 'Hallo!';
+      }
+}
+
+Konzepte:
+
+- data-controller — verbindet HTML mit dem Controller
+- targets — DOM-Elemente die der Controller kennt (data-hello-target="output")
+- actions — Event-Handler (data-action="click->hello#greet")
+- values — Daten vom Server zum Controller (data-hello-name-value="Max")
+
+Vorteil gegenüber vanilla JS: Kein document.querySelector — Stimulus kümmert sich darum, wann
+Elemente erscheinen/verschwinden (z.B. bei Turbo-Navigation).

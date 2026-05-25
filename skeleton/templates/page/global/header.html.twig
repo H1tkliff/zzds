@@ -1,0 +1,27 @@
+<header class="header">
+    <nav class="nav nav-discipline">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-2">
+                    <div class="logo">
+                        Logo
+                    </div>
+                </div>
+                <div class="col col-5">
+                    Links
+                </div>
+                <div class="col col-3">
+
+                </div>
+                <div class="col col-3">
+                    {% for discipline in disciplines %}
+                        <a href="#">{{ discipline.name }}</a>
+                    {% endfor %}
+                </div>
+                <div class="col col-1">
+                    LOGIN
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
