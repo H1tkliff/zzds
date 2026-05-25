@@ -1,0 +1,29 @@
+{
+  "name": "skeleton",
+  "version": "1.0.0",
+  "description": "``` skeleton/ ├── config/ ├── public/ ├── src/ │   └── Controller/ ├── templates/ ├── vendor/ ├── var/ ├── .env ├── composer.json ├── composer.lock ├── symfony.lock ├── docker-compose.yml └── Dockerfile ```",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@symfony/webpack-encore": "^6.0.0",
+    "sass": "^1.100.0",
+    "sass-loader": "^14.2.1"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.29.7",
+    "bootstrap": "^5.3.8",
+    "webpack": "^5.107.1",
+    "webpack-cli": "^7.0.2"
+  }
+}
