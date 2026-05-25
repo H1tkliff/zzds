@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Discipline;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\User;
@@ -32,18 +33,36 @@ class AppFixtures extends Fixture
         $player->setRating(1.50);
         $player->setTeam($team);
 
+        $userAdmin = new User();
+        $userAdmin->setName('admin');
+        $userAdmin->setSurname('admin');
+        $userAdmin->setEmail('admin@test.com');
+        $userAdmin->setRoles(['ROLE_ADMIN']);
+        $userAdmin->setPassword(
+            $this->hasher->hashPassword($userAdmin, 'password123')
+        );
+
         $user = new User();
-        $user->setName('admin');
-        $user->setSurname('admin');
-        $user->setEmail('admin@test.com');
-        $user->setRoles(['ROLE_ADMIN']);
+        $user->setName('Sasha');
+        $user->setSurname('Prikotko');
+        $user->setEmail('alatont@test.mail');
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword(
             $this->hasher->hashPassword($user, 'password123')
         );
 
+        $disciplineCS = new Discipline();
+        $disciplineCS->setName('CS2');
+
+        $disciplineHS = new Discipline();
+        $disciplineHS->setName('Hearthstone');
+
         $manager->persist($player);
         $manager->persist($team);
+        $manager->persist($userAdmin);
         $manager->persist($user);
+        $manager->persist($disciplineCS);
+        $manager->persist($disciplineHS);
         $manager->flush();
     }
 }

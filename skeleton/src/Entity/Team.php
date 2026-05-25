@@ -12,6 +12,9 @@ class Team
 {
     #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'team')]
     private Collection $players;
+
+    #[ORM\ManyToOne(targetEntity: Discipline::class)]
+    private Discipline $discipline;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -45,5 +48,15 @@ class Team
     public function getPlayers(): Collection
     {
         return $this->players;
+    }
+
+    public function getDiscipline(): Discipline
+    {
+        return $this->discipline;
+    }
+
+    public function addDiscipline(Discipline $discipline): static
+    {
+        $this->discipline[] = $discipline;
     }
 }
