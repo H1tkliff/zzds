@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@symfony/webpack-encore": "^6.0.0",
+    "core-js": "^3.49.0",
     "sass": "^1.100.0",
     "sass-loader": "^14.2.1"
   },
