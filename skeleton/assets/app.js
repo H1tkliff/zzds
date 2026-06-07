@@ -1,3 +1,10 @@
 import './styles/app.scss';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.disc-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.disc-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+        });
+    });
+});
