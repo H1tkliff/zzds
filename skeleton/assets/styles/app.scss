@@ -4,6 +4,9 @@
 @use 'components/ticker';
 @use 'layout/layout';
 @use 'page/header/section';
-@use 'match-card';
+@use 'components/match-card';
+
 @use 'components/rankings';
 @use 'components/sidebar/sidebar';
+@use 'components/button/button';
+@use 'page/account/login';

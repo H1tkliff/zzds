@@ -1,0 +1,20 @@
+{# components/sidebar/players_widget.html.twig
+   Variables:
+   - players: array of {rank, avatar, nick, team, rating}
+   - period: string (e.g. "This Month")
+#}
+<div class="widget">
+    <div class="widget-title">Top Players · {{ period ?? 'This Month' }}</div>
+
+    {% for player in players %}
+        <div class="player-row">
+            <div class="player-rank">{{ player.rank }}</div>
+            <div class="player-avatar">{{ player.avatar }}</div>
+            <div class="player-info">
+                <div class="player-nick">{{ player.nick }}</div>
+                <div class="player-team">{{ player.team }}</div>
+            </div>
+            <div class="player-rating">{{ player.rating }}</div>
+        </div>
+    {% endfor %}
+</div>

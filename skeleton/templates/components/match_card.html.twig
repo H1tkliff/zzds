@@ -1,0 +1,43 @@
+{# components/match_card.html.twig — Live match card
+   Variables:
+   - match: {
+       map: string,
+       team_left: {flag, name},
+       team_right: {flag, name},
+       score_left: int,
+       score_right: int,
+       win_left: bool,
+       win_right: bool,
+       event: string,
+       format: string
+     }
+#}
+<div class="match-card live">
+    <div class="match-time">
+        <span class="live-badge">● Live</span>
+        {{ match.map }}
+    </div>
+
+    <div class="match-center">
+        <div class="match-team">
+            <div class="team-flag">{{ match.team_left.flag }}</div>
+            <div class="team-name">{{ match.team_left.name }}</div>
+        </div>
+
+        <div class="match-score">
+            <div class="score-num{{ match.win_left ? ' win' : '' }}">{{ match.score_left }}</div>
+            <div class="score-sep">:</div>
+            <div class="score-num{{ match.win_right ? ' win' : '' }}">{{ match.score_right }}</div>
+        </div>
+
+        <div class="match-team right">
+            <div class="team-flag">{{ match.team_right.flag }}</div>
+            <div class="team-name">{{ match.team_right.name }}</div>
+        </div>
+    </div>
+
+    <div class="match-info">
+        <span class="event">{{ match.event }}</span>
+        <span class="format">{{ match.format }}</span>
+    </div>
+</div>

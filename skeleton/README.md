@@ -194,25 +194,6 @@ DATABASE_URL="mysql://symfony:symfony@database:3306/symfony_app?serverVersion=8.
 
 sudo chown -R $USER:$USER skeleton
 
-Migrations
-docker compose exec php php bin/console make:migration
-docker compose exec php php bin/console doctrine:migrations:migrate
-
-Make Entity
-docker compose exec php php bin/console make:entity Team
-
-Make Controlle
-docker compose exec php php bin/console make:controller TeamController
-
-Make Form
-docker compose exec php php bin/console make:form TeamType
-
-
-Fixtures Testdaten
-composer require --dev doctrine/doctrine-fixtures-bundle
-docker compose exec php php bin/console doctrine:fixtures:load
-
-
 {{ variable }}         {# Ausgabe — mit auto-Escaping (kein XSS) #}
 {% for x in liste %}  {# Schleife #}
 {% if bedingung %}    {# Bedingung #}
@@ -306,3 +287,5 @@ Konzepte:
 
 Vorteil gegenüber vanilla JS: Kein document.querySelector — Stimulus kümmert sich darum, wann
 Elemente erscheinen/verschwinden (z.B. bei Turbo-Navigation).
+
+

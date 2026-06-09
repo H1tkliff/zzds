@@ -1,6 +1,8 @@
+@use '../variables' as *;
+
 .match-card {
-  background: var(--bg1);
-  border: 1px solid var(--border);
+  background: $bg1;
+  border: 1px solid $border;
   margin-bottom: 4px;
   display: grid;
   grid-template-columns: 80px 1fr 80px;
@@ -23,12 +25,12 @@
   }
 
   &:hover {
-    border-color: var(--border2);
-    background: var(--bg2);
+    border-color: $border2;
+    background: $bg2;
     box-shadow: inset 0 0 30px rgba(77, 159, 255, 0.03);
 
     &::before {
-      background: var(--accent);
+      background: $accent;
     }
   }
 
@@ -37,14 +39,14 @@
     background: linear-gradient(90deg, rgba(255, 59, 48, 0.03) 0%, transparent 40%);
 
     &::before {
-      background: var(--live);
+      background: $live;
     }
   }
 }
 
 .upcoming-card {
-  background: var(--bg1);
-  border: 1px solid var(--border);
+  background: $bg1;
+  border: 1px solid $border;
   margin-bottom: 4px;
   display: grid;
   grid-template-columns: 80px 1fr 80px;
@@ -66,28 +68,28 @@
   }
 
   &:hover {
-    border-color: var(--border2);
-    background: var(--bg2);
+    border-color: $border2;
+    background: $bg2;
 
     &::before {
-      background: var(--accent);
+      background: $accent;
     }
   }
 }
 
 .match-time {
-  font-family: var(--font-mono);
+  font-family: $font-mono;
   font-size: 11px;
-  color: var(--text3);
+  color: $text3;
   text-align: center;
 
   &.upcoming-time {
-    color: var(--text2);
+    color: $text2;
     font-size: 12px;
   }
 
-  .live-badge {
-    color: var(--live);
+  & .live-badge {
+    color: $live;
     font-weight: 500;
     font-size: 10px;
     text-transform: uppercase;
@@ -120,21 +122,21 @@
   width: 16px;
   height: 11px;
   border-radius: 1px;
-  background: var(--bg4);
+  background: $bg4;
   font-size: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text3);
+  color: $text3;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .team-name {
-  font-family: var(--font-head);
+  font-family: $font-head;
   font-size: 15px;
   font-weight: 600;
-  color: var(--text1);
+  color: $text1;
   letter-spacing: 0.3px;
 }
 
@@ -146,44 +148,44 @@
 }
 
 .score-num {
-  font-family: var(--font-mono);
+  font-family: $font-mono;
   font-size: 18px;
   font-weight: 500;
-  color: var(--text3);
+  color: $text3;
   min-width: 22px;
   text-align: center;
 
   &.win {
-    color: var(--accent);
+    color: $accent;
     text-shadow: 0 0 10px rgba(77, 159, 255, 0.4);
   }
 }
 
 .score-sep {
-  color: var(--border2);
+  color: $border2;
   font-size: 14px;
 }
 
 .score-vs {
-  font-family: var(--font-mono);
+  font-family: $font-mono;
   font-size: 13px;
-  color: var(--text3);
+  color: $text3;
 }
 
 .match-info {
-  font-family: var(--font-mono);
+  font-family: $font-mono;
   font-size: 10px;
-  color: var(--text3);
+  color: $text3;
   text-align: right;
 
-  .event {
-    color: var(--text2);
+  & .event {
+    color: $text2;
     display: block;
     font-size: 10px;
   }
 
-  .format {
-    color: var(--text3);
+  & .format {
+    color: $text3;
     font-size: 10px;
     display: block;
   }

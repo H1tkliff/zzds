@@ -1,0 +1,18 @@
+{# components/sidebar/events_widget.html.twig
+   Variables:
+   - events: array of {name, date, prize, soon: bool}
+#}
+<div class="widget">
+    <div class="widget-title">Upcoming Events</div>
+
+    {% for event in events %}
+        <div class="event-item">
+            <div class="event-dot{{ event.soon is defined and event.soon ? ' soon' : '' }}"></div>
+            <div class="event-info">
+                <div class="event-name">{{ event.name }}</div>
+                <div class="event-date">{{ event.date }}</div>
+            </div>
+            <div class="event-prize">{{ event.prize }}</div>
+        </div>
+    {% endfor %}
+</div>

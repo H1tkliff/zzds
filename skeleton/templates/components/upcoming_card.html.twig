@@ -1,0 +1,24 @@
+<div class="upcoming-card">
+    <div class="match-time upcoming-time">{{ match.time }}</div>
+
+    <div class="match-center">
+        <div class="match-team">
+            <div class="team-flag">{{ match.team_left.flag }}</div>
+            <div class="team-name">{{ match.team_left.name }}</div>
+        </div>
+
+        <div class="match-score">
+            <div class="score-vs">vs</div>
+        </div>
+
+        <div class="match-team right">
+            <div class="team-flag">{{ match.team_right.flag }}</div>
+            <div class="team-name">{{ match.team_right.name }}</div>
+        </div>
+    </div>
+
+    <div class="match-info">
+        <span class="event">{{ match.event }}</span>
+        <span class="format">{{ match.format }}</span>
+    </div>
+</div>
