@@ -1,0 +1,490 @@
+@use '../../variables' as *;
+
+// Background
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient($border 1px, transparent 1px),
+  linear-gradient(90deg, $border 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.bg-glow {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(77, 159, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bg-glow2 {
+  position: fixed;
+  bottom: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(0, 200, 160, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+// Login nav
+.login-nav {
+  background: $bg1;
+  border-bottom: 1px solid $border;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+
+  & .nav-logo {
+    font-family: $font-head;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: $accent;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(77, 159, 255, 0.4);
+    text-decoration: none;
+
+    & span {
+      color: $text3;
+    }
+  }
+
+  & .nav-back {
+    margin-left: auto;
+    font-family: $font-mono;
+    font-size: 11px;
+    color: $text3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.15s;
+    text-decoration: none;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+}
+
+// Page layout
+.login-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+// Card
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: $bg1;
+  border: 1px solid $border2;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.3s ease both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $accent, transparent);
+    opacity: 0.6;
+  }
+
+  &.card-head {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid $border;
+  }
+
+  &.card-title {
+    font-family: $font-head;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $text1;
+    margin-bottom: 4px;
+  }
+
+  &.card-sub {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: $text3;
+
+    & span {
+      color: $accent;
+      opacity: 0.7;
+    }
+  }
+
+  & .card-body {
+    padding: 24px 28px;
+  }
+}
+
+// Tabs
+.tabs {
+  display: flex;
+  margin-bottom: 24px;
+  border: 1px solid $border;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  font-family: $font-head;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: $text3;
+  cursor: pointer;
+  background: $bg2;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: block;
+
+  &.active {
+    background: $accent-dim;
+    color: $accent;
+    border-bottom: 1px solid $accent;
+  }
+
+  &:hover:not(.active) {
+    color: $text2;
+  }
+}
+
+// Fields
+.field {
+  margin-bottom: 16px;
+}
+
+.field-label {
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: 500;
+  color: $text3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & a {
+    color: $accent;
+    opacity: 0.7;
+    text-decoration: none;
+    transition: opacity 0.15s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.field-wrap {
+  position: relative;
+}
+
+.field-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text3;
+  font-size: 13px;
+  pointer-events: none;
+  font-family: $font-mono;
+}
+
+.field-input {
+  width: 100%;
+  background: $bg2;
+  border: 1px solid $border2;
+  color: $text1;
+  font-family: $font-mono;
+  font-size: 13px;
+  padding: 10px 12px 10px 36px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  border-radius: 2px;
+
+  &::placeholder {
+    color: $text3;
+  }
+
+  &:focus {
+    border-color: $accent;
+    box-shadow: 0 0 0 3px rgba(77, 159, 255, 0.08);
+  }
+}
+
+// Error
+.login-error {
+  background: rgba(255, 68, 68, 0.08);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  color: $accent3;
+  font-family: $font-mono;
+  font-size: 11px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 2px;
+}
+
+// Password strength
+.strength {
+  margin-top: 6px;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+
+  & .strength-bars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 4px;
+  }
+
+  & .strength-bar {
+    height: 2px;
+    flex: 1;
+    background: $bg4;
+    border-radius: 1px;
+    transition: background 0.3s;
+
+    &.weak {
+      background: $accent3;
+    }
+
+    &.medium {
+      background: #f0a500;
+    }
+
+    &.strong {
+      background: $accent2;
+    }
+  }
+
+  & .strength-label {
+    font-family: $font-mono;
+    font-size: 10px;
+    color: $text3;
+  }
+}
+
+// Checkbox
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.check-box {
+  width: 15px;
+  height: 15px;
+  border: 1px solid $border2;
+  background: $bg2;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+
+  &.checked {
+    background: $accent;
+    border-color: $accent;
+
+    &::after {
+      content: '✓';
+      font-size: 10px;
+      color: #000;
+      font-weight: 700;
+    }
+  }
+}
+
+.check-label {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text3;
+
+  & a {
+    color: $accent;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// Submit button
+.btn-submit {
+  width: 100%;
+  padding: 11px;
+  background: $accent;
+  border: none;
+  color: #000;
+  font-family: $font-head;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+  box-shadow: 0 0 20px rgba(77, 159, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.4s;
+  }
+
+  &:hover {
+    background: #6aadff;
+    box-shadow: 0 0 28px rgba(77, 159, 255, 0.35);
+
+    &::after {
+      transform: translateX(100%);
+    }
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+// Divider
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+
+  & .divider-line {
+    flex: 1;
+    height: 1px;
+    background: $border;
+  }
+
+  & .divider-text {
+    font-family: $font-mono;
+    font-size: 10px;
+    color: $text3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// OAuth
+.oauth-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-oauth {
+  flex: 1;
+  padding: 9px;
+  background: $bg2;
+  border: 1px solid $border2;
+  color: $text2;
+  font-family: $font-head;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  &:hover {
+    border-color: $accent;
+    color: $accent;
+  }
+
+  & .oauth-icon {
+    font-size: 14px;
+  }
+}
+
+// Stats row
+.stats-row {
+  display: flex;
+  border-top: 1px solid $border;
+}
+
+.stat-item {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  border-right: 1px solid $border;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  & .stat-val {
+    font-family: $font-mono;
+    font-size: 16px;
+    font-weight: 500;
+    color: $accent;
+    line-height: 1;
+  }
+
+  & .stat-lbl {
+    font-family: $font-mono;
+    font-size: 9px;
+    color: $text3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,28 @@
+{# components/team_card.html.twig
+   Variables:
+   - team: Team entity with name, players (Collection), discipline
+#}
+<a href="{{ path('team_show', {id: team.id}) }}" class="team-card">
+    <div class="tc-logo">{{ team.name|slice(0,3)|upper }}</div>
+
+    <div class="tc-info">
+        <div class="tc-name">{{ team.name }}</div>
+        {% if team.discipline is defined and team.discipline %}
+            <div class="tc-disc">{{ team.discipline.name }}</div>
+        {% endif %}
+    </div>
+
+    <div class="tc-players">
+        {% for player in team.players %}
+            <div class="tc-player">
+                <div class="tc-avatar">{{ player.nickname|slice(0,2)|upper }}</div>
+                <span class="tc-nick">{{ player.nickname }}</span>
+                <span class="tc-rating">{{ player.rating|number_format(2) }}</span>
+            </div>
+        {% else %}
+            <span class="tc-empty">No players</span>
+        {% endfor %}
+    </div>
+
+    <div class="tc-arrow">→</div>
+</a>

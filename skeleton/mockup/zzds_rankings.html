@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZZDS · World Ranking</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#080909;--bg1:#0c0e11;--bg2:#13161a;--bg3:#1a1e23;--bg4:#22272d;
+  --border:#1f2428;--border2:#2a3038;--border-focus:#4d9fff;
+  --text1:#e8eaeb;--text2:#8e97a0;--text3:#4e5760;
+  --accent:#4d9fff;--accent-dim:#1a3a5c;--accent-glow:rgba(77,159,255,0.15);
+  --accent2:#00c8a0;--accent3:#ff4444;
+  --font-head:'Rajdhani',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --font-body:'IBM Plex Sans',sans-serif;
+}
+
+body{
+  background:var(--bg0);color:var(--text1);
+  font-family:var(--font-body);font-size:13px;line-height:1.4;
+  min-height:100vh;position:relative;
+}
+
+/* BACKGROUND */
+.bg-grid{
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:40px 40px;opacity:0.35;pointer-events:none;z-index:0;
+}
+.bg-glow{
+  position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;
+  background:radial-gradient(ellipse at center, rgba(77,159,255,0.06) 0%, transparent 70%);
+  pointer-events:none;z-index:0;
+}
+.bg-glow2{
+  position:fixed;bottom:-100px;right:-100px;width:400px;height:400px;
+  background:radial-gradient(ellipse at center, rgba(0,200,160,0.04) 0%, transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* NAV */
+nav{
+  background:var(--bg1);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;height:44px;
+  display:flex;align-items:center;padding:0 16px;
+}
+.nav-logo{
+  font-family:var(--font-head);font-size:22px;font-weight:700;
+  letter-spacing:2px;color:var(--accent);margin-right:28px;text-transform:uppercase;
+  text-shadow:0 0 20px rgba(77,159,255,0.4);
+}
+.nav-logo span{color:var(--text3)}
+.nav-links{display:flex;height:44px}
+.nav-link{
+  padding:0 14px;height:44px;display:flex;align-items:center;
+  font-family:var(--font-head);font-size:14px;font-weight:500;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid transparent;
+  cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;
+}
+.nav-link:hover{color:var(--text1)}
+.nav-link.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-right{margin-left:auto}
+.btn-login{
+  background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent);
+  font-family:var(--font-head);font-size:13px;font-weight:600;letter-spacing:.5px;
+  text-transform:uppercase;padding:6px 16px;border-radius:2px;cursor:pointer;transition:all .15s;
+}
+.btn-login:hover{background:var(--accent);color:var(--bg0)}
+
+/* LAYOUT */
+.wrap{position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:24px 16px 48px}
+
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.page-title{font-family:var(--font-head);font-size:30px;font-weight:700;letter-spacing:1px;text-transform:uppercase;line-height:1}
+.page-title small{display:block;font-family:var(--font-mono);font-size:11px;font-weight:400;color:var(--text3);letter-spacing:.5px;text-transform:none;margin-top:6px}
+.page-date{font-family:var(--font-mono);font-size:11px;color:var(--text2)}
+.page-date b{color:var(--accent)}
+
+/* FEATURED #1 */
+.featured{
+  background:var(--bg1);border:1px solid var(--border2);position:relative;
+  overflow:hidden;margin-bottom:14px;
+  animation:fadeUp .35s ease both;
+}
+.featured::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);opacity:.7;
+}
+.feat-head{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.feat-rank{
+  font-family:var(--font-head);font-size:34px;font-weight:700;color:var(--accent);
+  line-height:1;min-width:54px;text-shadow:0 0 16px rgba(77,159,255,0.4);
+}
+.feat-logo{
+  width:46px;height:46px;border-radius:3px;background:var(--bg3);
+  border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;
+}
+.feat-name{font-family:var(--font-head);font-size:26px;font-weight:700;letter-spacing:.5px;line-height:1}
+.feat-points{font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-top:3px}
+.feat-points b{color:var(--accent)}
+.feat-delta{margin-left:auto;font-family:var(--font-mono);font-size:13px}
+
+.feat-players{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.feat-player{
+  background:linear-gradient(180deg, var(--bg2) 0%, var(--bg1) 100%);
+  padding:18px 16px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;
+  position:relative;transition:background .2s;
+}
+.feat-player:hover{background:linear-gradient(180deg, var(--accent-dim) 0%, var(--bg1) 100%)}
+.feat-avatar{
+  width:84px;height:84px;border-radius:4px;margin-bottom:12px;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(77,159,255,0.35) 0%, transparent 60%),
+    linear-gradient(160deg, var(--bg4) 0%, var(--bg3) 100%);
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:28px;font-weight:700;color:var(--text1);
+  box-shadow:inset 0 0 24px rgba(77,159,255,0.12);
+}
+.feat-player .flag{font-size:14px;margin-bottom:4px}
+.feat-player .nick{font-family:var(--font-head);font-size:18px;font-weight:600;letter-spacing:.3px}
+.feat-player .role{font-family:var(--font-mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* RANK ROWS */
+.rank-list{display:flex;flex-direction:column;gap:6px}
+.rank-row{
+  background:var(--bg1);border:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:12px 16px;
+  cursor:pointer;transition:border-color .15s,background .15s;
+  animation:fadeUp .35s ease both;
+}
+.rank-row:hover{border-color:var(--accent-dim);background:var(--bg2)}
+.r-rank{font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--text3);min-width:40px;text-align:center}
+.rank-row:nth-child(-n+2) .r-rank{color:var(--accent)}
+.r-logo{
+  width:34px;height:34px;border-radius:3px;background:var(--bg3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text2);flex-shrink:0;
+}
+.r-main{min-width:0;width:190px;flex-shrink:0}
+.r-name{font-family:var(--font-head);font-size:19px;font-weight:600;letter-spacing:.4px;line-height:1.1}
+.r-points{font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-top:2px}
+.r-points b{color:var(--text2)}
+
+.r-players{display:flex;gap:8px;flex:1;min-width:0}
+.r-player{
+  display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:2px;padding:5px 9px 5px 5px;transition:border-color .15s;flex:1;min-width:0;
+}
+.r-player:hover{border-color:var(--accent-dim)}
+.r-pavatar{
+  width:26px;height:26px;border-radius:2px;flex-shrink:0;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(77,159,255,0.3) 0%, transparent 65%),
+    linear-gradient(160deg, var(--bg4) 0%, var(--bg3) 100%);
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--text1);
+}
+.r-pnick{font-family:var(--font-head);font-size:14px;font-weight:600;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r-pflag{font-size:11px;flex-shrink:0}
+
+.r-delta{font-family:var(--font-mono);font-size:13px;min-width:36px;text-align:right;flex-shrink:0}
+
+/* DELTA COLORS */
+.up{color:var(--accent2)}
+.down{color:var(--accent3)}
+.same{color:var(--text3)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:720px){
+  .nav-links{display:none}
+  .feat-players{grid-template-columns:1fr 1fr}
+  .r-players{display:none}
+  .r-main{flex:1;width:auto}
+}
+@media(max-width:480px){
+  .feat-players{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+
+<nav>
+  <div class="nav-logo">ZZ<span>D</span>S</div>
+  <div class="nav-links">
+    <div class="nav-link">Matches</div>
+    <div class="nav-link active">Rankings</div>
+    <div class="nav-link">Teams</div>
+    <div class="nav-link">Players</div>
+    <div class="nav-link">Events</div>
+  </div>
+  <div class="nav-right">
+    <button class="btn-login">Login</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <div class="page-title">World Ranking<small>2v2 · HLTV-style points · weekly update</small></div>
+    <div class="page-date">Updated <b>June 8th, 2026</b></div>
+  </div>
+
+  <!-- FEATURED #1 -->
+  <div class="featured">
+    <div class="feat-head">
+      <div class="feat-rank">#1</div>
+      <div class="feat-logo">VIT</div>
+      <div>
+        <div class="feat-name">Vitality</div>
+        <div class="feat-points"><b>991</b> ZZDS points</div>
+      </div>
+      <div class="feat-delta same">—</div>
+    </div>
+    <div class="feat-players">
+      <div class="feat-player">
+        <div class="feat-avatar">ZW</div>
+        <div class="flag">🇫🇷</div>
+        <div class="nick">ZywOo</div>
+        <div class="role">AWP · Captain</div>
+      </div>
+      <div class="feat-player">
+        <div class="feat-avatar">FZ</div>
+        <div class="flag">🇮🇱</div>
+        <div class="nick">flameZ</div>
+        <div class="role">Rifler · Entry</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RANK ROWS -->
+  <div class="rank-list">
+
+    <div class="rank-row" style="animation-delay:.02s">
+      <div class="r-rank">2</div>
+      <div class="r-logo">NAV</div>
+      <div class="r-main">
+        <div class="r-name">Natus Vincere</div>
+        <div class="r-points"><b>712</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">AL</div><span class="r-pflag">🇺🇦</span><span class="r-pnick">Aleksib</span></div>
+        <div class="r-player"><div class="r-pavatar">B1</div><span class="r-pflag">🇺🇦</span><span class="r-pnick">b1t</span></div>
+      </div>
+      <div class="r-delta same">—</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.04s">
+      <div class="r-rank">3</div>
+      <div class="r-logo">SPT</div>
+      <div class="r-main">
+        <div class="r-name">Spirit</div>
+        <div class="r-points"><b>544</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">SH</div><span class="r-pflag">🇷🇺</span><span class="r-pnick">sh1ro</span></div>
+        <div class="r-player"><div class="r-pavatar">DN</div><span class="r-pflag">🇷🇺</span><span class="r-pnick">donk</span></div>
+      </div>
+      <div class="r-delta same">—</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.06s">
+      <div class="r-rank">4</div>
+      <div class="r-logo">FLC</div>
+      <div class="r-main">
+        <div class="r-name">Falcons</div>
+        <div class="r-points"><b>509</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">NK</div><span class="r-pflag">🇧🇦</span><span class="r-pnick">NiKo</span></div>
+        <div class="r-player"><div class="r-pavatar">M0</div><span class="r-pflag">🇸🇮</span><span class="r-pnick">m0NESY</span></div>
+      </div>
+      <div class="r-delta same">—</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.08s">
+      <div class="r-rank">5</div>
+      <div class="r-logo">FUR</div>
+      <div class="r-main">
+        <div class="r-name">FURIA</div>
+        <div class="r-points"><b>393</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">FN</div><span class="r-pflag">🇧🇷</span><span class="r-pnick">FalleN</span></div>
+        <div class="r-player"><div class="r-pavatar">YU</div><span class="r-pflag">🇧🇷</span><span class="r-pnick">yuurih</span></div>
+      </div>
+      <div class="r-delta same">—</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.10s">
+      <div class="r-rank">6</div>
+      <div class="r-logo">AUR</div>
+      <div class="r-main">
+        <div class="r-name">Aurora</div>
+        <div class="r-points"><b>354</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">MJ</div><span class="r-pflag">🇹🇷</span><span class="r-pnick">MAJ3R</span></div>
+        <div class="r-player"><div class="r-pavatar">WO</div><span class="r-pflag">🇹🇷</span><span class="r-pnick">woxic</span></div>
+      </div>
+      <div class="r-delta same">—</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.12s">
+      <div class="r-rank">7</div>
+      <div class="r-logo">MZ</div>
+      <div class="r-main">
+        <div class="r-name">MOUZ</div>
+        <div class="r-points"><b>301</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">TZ</div><span class="r-pflag">🇭🇺</span><span class="r-pnick">torzsi</span></div>
+        <div class="r-player"><div class="r-pavatar">SP</div><span class="r-pflag">🇸🇮</span><span class="r-pnick">Spinx</span></div>
+      </div>
+      <div class="r-delta up">▲1</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.14s">
+      <div class="r-rank">8</div>
+      <div class="r-logo">LGC</div>
+      <div class="r-main">
+        <div class="r-name">Legacy</div>
+        <div class="r-points"><b>297</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">AT</div><span class="r-pflag">🇧🇷</span><span class="r-pnick">arT</span></div>
+        <div class="r-player"><div class="r-pavatar">LT</div><span class="r-pflag">🇧🇷</span><span class="r-pnick">latto</span></div>
+      </div>
+      <div class="r-delta down">▼1</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.16s">
+      <div class="r-rank">9</div>
+      <div class="r-logo">MGZ</div>
+      <div class="r-main">
+        <div class="r-name">The MongolZ</div>
+        <div class="r-points"><b>260</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">BL</div><span class="r-pflag">🇲🇳</span><span class="r-pnick">bLitz</span></div>
+        <div class="r-player"><div class="r-pavatar">91</div><span class="r-pflag">🇲🇳</span><span class="r-pnick">910</span></div>
+      </div>
+      <div class="r-delta same">—</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.18s">
+      <div class="r-rank">10</div>
+      <div class="r-logo">PRV</div>
+      <div class="r-main">
+        <div class="r-name">PARIVISION</div>
+        <div class="r-points"><b>259</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">JM</div><span class="r-pflag">🇷🇺</span><span class="r-pnick">Jame</span></div>
+        <div class="r-player"><div class="r-pavatar">XL</div><span class="r-pflag">🇷🇺</span><span class="r-pnick">xiELO</span></div>
+      </div>
+      <div class="r-delta up">▲1</div>
+    </div>
+
+    <div class="rank-row" style="animation-delay:.20s">
+      <div class="r-rank">11</div>
+      <div class="r-logo">GL</div>
+      <div class="r-main">
+        <div class="r-name">GamerLegion</div>
+        <div class="r-points"><b>259</b> points</div>
+      </div>
+      <div class="r-players">
+        <div class="r-player"><div class="r-pavatar">SX</div><span class="r-pflag">🇸🇪</span><span class="r-pnick">Snax</span></div>
+        <div class="r-player"><div class="r-pavatar">RZ</div><span class="r-pflag">🇸🇪</span><span class="r-pnick">REZ</span></div>
+      </div>
+      <div class="r-delta down">▼1</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
