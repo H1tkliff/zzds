@@ -4,7 +4,7 @@
     <div class="nav-links">
         {% for link in nav_links %}
             <a href="{{ link.route is defined ? path(link.route) : '#' }}"
-               class="nav-link{{ link.active is defined and link.active ? ' active' : '' }}">
+               class="nav-link{{ link.route is defined and link.route == current_route ? ' active' : '' }}">
                 {{ link.label }}
             </a>
         {% endfor %}

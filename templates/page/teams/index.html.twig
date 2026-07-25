@@ -14,38 +14,34 @@
         </div>
     </div>
 
-    {% if teams|length > 0 %}
-        {% set featured = teams|first %}
-        <div class="team-featured">
-            <div class="tf-head">
-                <div class="tf-logo">{{ featured.name|slice(0,3)|upper }}</div>
-                <div>
-                    <div class="tf-name">{{ featured.name }}</div>
-                    {% if featured.discipline is defined and featured.discipline %}
-                        <div class="tf-disc">{{ featured.discipline.name }}</div>
-                    {% endif %}
-                </div>
-                <a href="{{ path('team_show', {id: featured.id}) }}" class="tf-link">View team →</a>
-            </div>
-            <div class="tf-players">
-                {% for player in featured.players %}
-                    <div class="tf-player">
-                        <div class="tf-avatar">{{ player.nickname|slice(0,2)|upper }}</div>
-                        <div class="tf-nick">{{ player.nickname }}</div>
-                        <div class="tf-rating">{{ player.rating|number_format(2) }}</div>
-                    </div>
-                {% else %}
-                    <span class="tf-empty">No players registered</span>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
-
-    <div class="teams-list">
+    <div class="teams-list" data-controller="teams">
         {% for team in teams %}
-            {% if not loop.first %}
-                {% include 'components/team_card.html.twig' with { team: team } %}
-            {% endif %}
+            <div class="team-featured{% if not loop.first %} is-close{% endif %}">
+                <div class="tf-head">
+                    <div class="tf-logo">{{ team.name|slice(0,3)|upper }}</div>
+                    <div>
+                        <div class="tf-name">{{ team.name }}</div>
+                        {% if team.discipline is defined and team.discipline %}
+                            <div class="tf-disc">{{ team.discipline.name }}</div>
+                        {% endif %}
+                    </div>
+                    <a href="{{ path('team_show', {id: team.id}) }}" class="tf-link">View team →</a>
+                    <div class="tf-chevron">▾</div>
+                </div>
+                <div class="tf-players-collapse">
+                    <div class="tf-players">
+                        {% for player in team.players %}
+                            <div class="tf-player">
+                                <div class="tf-avatar">{{ player.nickname|slice(0,2)|upper }}</div>
+                                <div class="tf-nick">{{ player.nickname }}</div>
+                                <div class="tf-rating">{{ player.rating|number_format(2) }}</div>
+                            </div>
+                        {% else %}
+                            <span class="tf-empty">No players registered</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         {% else %}
             <p class="teams-empty">No teams found.</p>
         {% endfor %}

@@ -1,17 +1,78 @@
-{% extends 'base.html.twig' %}
+<div id="form-register" style="{{ active_tab|default('login') == 'register' ? '' : 'display:none' }}">
+    {% if form.vars.errors|length %}
+        <div class="login-error">{{ form_errors(form) }}</div>
+    {% endif %}
 
-{% block body %}
-    <h1>New Account</h1>
+    {{ form_start(form, {'action': path('app_register'), 'method': 'POST'}) }}
+    <div class="field">
+        <div class="field-label">Name</div>
+        <div class="field-wrap">
+            <div class="field-icon">#</div>
+            {{ form_widget(form.name, {'attr': {'class': 'field-input', 'placeholder': 'Alex'}}) }}
+        </div>
+        {{ form_errors(form.name) }}
+    </div>
 
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
+    <div class="field">
+        <div class="field-label">Surname</div>
+        <div class="field-wrap">
+            <div class="field-icon">#</div>
+            {{ form_widget(form.surname, {'attr': {'class': 'field-input', 'placeholder': 'Prikotko'}}) }}
+        </div>
+        {{ form_errors(form.surname) }}
+    </div>
 
-    {{ form_row(form.name) }}
-    {{ form_row(form.surname) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
+    <div class="field">
+        <div class="field-label">Email Address</div>
+        <div class="field-wrap">
+            <div class="field-icon">@</div>
+            {{ form_widget(form.email, {'attr': {'class': 'field-input', 'placeholder': 'you@example.com'}}) }}
+        </div>
+        {{ form_errors(form.email) }}
+    </div>
 
-    {{ form_widget(form.save) }}
+    <div class="field">
+        <div class="field-label">Password</div>
+        <div class="field-wrap">
+            <div class="field-icon">⬡</div>
+            {{ form_widget(form.password, {'attr': {
+                'class': 'field-input',
+                'placeholder': 'min. 8 characters',
+                'data-action': 'input->login#checkStrength',
+                'data-login-target': 'strengthInput'
+            }}) }}
+        </div>
+        <div class="strength" data-login-target="strengthWrap">
+            <div class="strength-bars">
+                <div class="strength-bar" data-login-target="strengthBar"></div>
+                <div class="strength-bar" data-login-target="strengthBar"></div>
+                <div class="strength-bar" data-login-target="strengthBar"></div>
+                <div class="strength-bar" data-login-target="strengthBar"></div>
+            </div>
+            <div class="strength-label" data-login-target="strengthLabel"></div>
+        </div>
+        {{ form_errors(form.password) }}
+    </div>
 
-    {{ form_end(form) }}
-{% endblock %}
+    <div class="check-row">
+        <div class="check-box"></div>
+        <div class="check-label">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></div>
+    </div>
+
+    {{ form_rest(form) }}
+
+    <button class="btn-submit" type="submit">Create Account</button>
+
+    <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-text">or register with</div>
+        <div class="divider-line"></div>
+    </div>
+
+    <div class="oauth-row">
+        <button class="btn-oauth" type="button"><span class="oauth-icon">◈</span> Steam</button>
+        <button class="btn-oauth" type="button"><span class="oauth-icon">◉</span> Discord</button>
+        <button class="btn-oauth" type="button"><span class="oauth-icon">◎</span> Google</button>
+    </div>
+    {{ form_end(form, {'render_rest': false}) }}
+</div>

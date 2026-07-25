@@ -38,3 +38,14 @@ services:
     # Можно подключиться через TablePlus, DBeaver и т.д.
     ports:
       - "3306:3306"
+
+    # Именованный volume для данных MySQL
+    # Данные хранятся отдельно от контейнера — удаление/пересборка
+    # database-контейнера (или всего проекта через `docker compose down`)
+    # не стирает базу, пока не указан флаг -v
+    volumes:
+      - db_data:/var/lib/mysql
+
+# Именованные volumes проекта
+volumes:
+  db_data:
