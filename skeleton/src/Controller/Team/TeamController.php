@@ -11,7 +11,7 @@ final class TeamController extends AbstractController
     #[Route('/team', name: 'app_team')]
     public function index(): Response
     {
-        return $this->render('team/index.html.twig', [
+        return $this->render('team/account.html.twig', [
             'controller_name' => 'TeamController',
         ]);
     }

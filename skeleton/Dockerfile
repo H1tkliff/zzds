@@ -8,7 +8,7 @@ FROM php:8.1-cli
 # - zip — нужен Composer'у для распаковки пакетов
 # - intl — интернационализация, нужна Symfony
 RUN apt-get update && apt-get install -y \
-    git curl unzip libzip-dev libicu-dev \
+    git curl unzip libzip-dev libicu-dev libxml2-dev pkg-config \
     && docker-php-ext-install pdo pdo_mysql zip intl dom
 
 # Копируем готовый бинарник Composer из официального образа
@@ -26,4 +26,4 @@ WORKDIR /app
 # Команда которая запускается при старте контейнера:
 # запускаем встроенный веб-сервер Symfony на порту 8080
 # --no-tls и --allow-http — без HTTPS (для локальной разработки)
-CMD ["symfony", "server:start", "--no-tls", "--listen=0.0.0.0:8080", "--allow-http"]
+CMD ["symfony", "server:start", "--no-tls", "--allow-http", "--allow-all-ip", "--port=8080"]

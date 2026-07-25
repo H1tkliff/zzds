@@ -1,14 +1,6 @@
 {# components/rankings_table.html.twig
    Variables:
-   - teams: array of {
-       rank: int,
-       flag: string,
-       abbr: string,
-       points: int,
-       rating: float,
-       rating_pct: int,
-       change: string  ('+1', '-1', '—')
-     }
+   - teams: array of App\Entity\Ranking (position, team, points, rating, snapshotDate)
    - meta: string (e.g. "Updated 2h ago")
 #}
 <div class="section-header">
@@ -27,33 +19,28 @@
         </tr>
     </thead>
     <tbody>
-        {% for team in teams %}
+        {% for item in teams %}
+            {% set ranking = item.ranking %}
             <tr>
                 <td>
-                    <div class="rank-num{{ team.rank <= 3 ? ' top3' : '' }}">{{ team.rank }}</div>
+                    <div class="rank-num{{ ranking.position <= 3 ? ' top3' : '' }}">{{ ranking.position }}</div>
                 </td>
                 <td>
-                    <div class="team-cell">
-                        <div class="team-flag">{{ team.flag }}</div>
-                        <div class="team-abbr">{{ team.abbr }}</div>
-                    </div>
+                    <div class="team-cell">{{ ranking.team.name }}</div>
                 </td>
-                <td class="points-val">{{ team.points }}</td>
+                <td class="points-val">{{ ranking.points }}</td>
                 <td>
                     <div class="rating-cell">
-                        <div class="rating-bar-wrap">
-                            <div class="rating-bar" style="width: {{ team.rating_pct }}%"></div>
-                        </div>
-                        <span class="rating-val">{{ team.rating }}</span>
+                        <span class="rating-val">{{ ranking.rating }}</span>
                     </div>
                 </td>
                 <td>
-                    {% if team.change starts with '+' %}
-                        <span class="change up">▲{{ team.change|slice(1) }}</span>
-                    {% elseif team.change starts with '-' %}
-                        <span class="change down">▼{{ team.change|slice(1) }}</span>
-                    {% else %}
+                    {% if item.change is null or item.change == 0 %}
                         <span class="change same">—</span>
+                    {% elseif item.change > 0 %}
+                        <span class="change up">▲{{ item.change }}</span>
+                    {% else %}
+                        <span class="change down">▼{{ item.change|abs }}</span>
                     {% endif %}
                 </td>
             </tr>

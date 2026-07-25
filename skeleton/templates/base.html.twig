@@ -24,14 +24,6 @@
 {% block header %}
     {{ render(controller('App\\Controller\\HeaderController::header')) }}
 {% endblock %}
-{% block nav %}
-    <nav>
-        <a href="{{ path('team_list') }}">Teams</a>
-        <a href="{{ path('app_register') }}">Register</a>
-        <a href="{{ path('app_login') }}">Login</a>
-        <a href="{{ path('app_account') }}">Account</a>
-    </nav>
-{% endblock %}
 {% block body %}
 
     <div class="layout">

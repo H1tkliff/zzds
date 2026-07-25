@@ -17,11 +17,11 @@ class RegisterController extends AbstractController
 {
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(
-        Request $request,
-        EntityManagerInterface $em,
+        Request                     $request,
+        EntityManagerInterface      $em,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserAuthenticatorInterface $userAuthenticator,
-        AppAuthenticator $authenticator
+        UserAuthenticatorInterface  $userAuthenticator,
+        AppAuthenticator            $authenticator
     ): Response
     {
         $user = new User();
@@ -46,8 +46,11 @@ class RegisterController extends AbstractController
             return $userAuthenticator->authenticateUser($user, $authenticator, $request);
         }
 
-        return $this->render('register/register.html.twig', [
-            'form' => $form
+        return $this->render('page/account/security/login.html.twig', [
+            'form' => $form->createView(),
+            'active_tab' => 'register',
+            'error' => null,
+            'last_username' => null,
         ]);
     }
 }
