@@ -1,0 +1,25 @@
+@use '../../variables' as *;
+
+.btn-login {
+    padding: 4px 14px;
+    background: transparent;
+    border: 1px solid $border2;
+    color: $text2;
+    font-family: $font-head;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+
+    &:hover {
+        border-color: $accent;
+        color: $accent;
+        box-shadow: 0 0 8px rgba(77, 159, 255, 0.15);
+    }
+}

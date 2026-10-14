@@ -1,0 +1,18 @@
+{# components/ticker.html.twig
+   Variables:
+   - ticker_items: array of {teams, score, map}
+#}
+<div class="ticker-bar">
+    <div class="ticker-label">Live</div>
+    <div class="ticker-scroll">
+        {# Items are duplicated to create a seamless infinite scroll #}
+        {% set all_items = ticker_items|merge(ticker_items) %}
+        {% for item in all_items %}
+            <div class="ticker-item">
+                <span class="teams">{{ item.teams }}</span>
+                <span class="score">{{ item.score }}</span>
+                <span class="map">{{ item.map }}</span>
+            </div>
+        {% endfor %}
+    </div>
+</div>

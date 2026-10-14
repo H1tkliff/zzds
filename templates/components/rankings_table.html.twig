@@ -1,0 +1,62 @@
+{# components/rankings_table.html.twig
+   Variables:
+   - teams: array of {
+       rank: int,
+       flag: string,
+       abbr: string,
+       points: int,
+       rating: float,
+       rating_pct: int,
+       change: string  ('+1', '-1', '—')
+     }
+   - meta: string (e.g. "Updated 2h ago")
+#}
+<div class="section-header">
+    <div class="section-title">World Rankings</div>
+    <div class="section-meta">{{ meta ?? 'Updated recently' }}</div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>Points</th>
+            <th>Rating</th>
+            <th>Δ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+            <tr>
+                <td>
+                    <div class="rank-num{{ team.rank <= 3 ? ' top3' : '' }}">{{ team.rank }}</div>
+                </td>
+                <td>
+                    <div class="team-cell">
+                        <div class="team-flag">{{ team.flag }}</div>
+                        <div class="team-abbr">{{ team.abbr }}</div>
+                    </div>
+                </td>
+                <td class="points-val">{{ team.points }}</td>
+                <td>
+                    <div class="rating-cell">
+                        <div class="rating-bar-wrap">
+                            <div class="rating-bar" style="width: {{ team.rating_pct }}%"></div>
+                        </div>
+                        <span class="rating-val">{{ team.rating }}</span>
+                    </div>
+                </td>
+                <td>
+                    {% if team.change starts with '+' %}
+                        <span class="change up">▲{{ team.change|slice(1) }}</span>
+                    {% elseif team.change starts with '-' %}
+                        <span class="change down">▼{{ team.change|slice(1) }}</span>
+                    {% else %}
+                        <span class="change same">—</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

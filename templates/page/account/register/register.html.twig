@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>New Account</h1>
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.surname) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+
+    {{ form_widget(form.save) }}
+
+    {{ form_end(form) }}
+{% endblock %}

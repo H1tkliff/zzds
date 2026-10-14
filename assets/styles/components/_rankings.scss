@@ -1,0 +1,110 @@
+@use '../variables' as *;
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  & th {
+    font-family: $font-mono;
+    font-size: 10px;
+    font-weight: 500;
+    color: $text3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 10px;
+    border-bottom: 1px solid $border;
+    text-align: left;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  & td {
+    padding: 7px 10px;
+    font-size: 12px;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  & tr {
+    border-bottom: 1px solid $border;
+    cursor: pointer;
+    transition: background 0.1s;
+
+    &:hover td {
+      background: $bg2;
+    }
+  }
+}
+
+.rank-num {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text3;
+  width: 28px;
+
+  &.top3 {
+    color: $accent;
+    font-weight: 500;
+  }
+}
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-abbr {
+  font-family: $font-head;
+  font-size: 14px;
+  font-weight: 700;
+  color: $text1;
+  letter-spacing: 0.5px;
+}
+
+.rating-cell {
+  display: flex;
+  align-items: center;
+}
+
+.rating-bar-wrap {
+  width: 60px;
+  height: 3px;
+  background: $bg4;
+  border-radius: 1px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.rating-bar {
+  height: 3px;
+  background: $accent;
+  border-radius: 1px;
+  box-shadow: 0 0 6px rgba(77, 159, 255, 0.5);
+}
+
+.rating-val {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text2;
+}
+
+.points-val {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text2;
+}
+
+.change {
+  font-family: $font-mono;
+  font-size: 10px;
+
+  &.up   { color: $accent2; }
+  &.down { color: $accent3; }
+  &.same { color: $text3; }
+}
