@@ -8,22 +8,21 @@ use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegisterController extends AbstractController
 {
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(
-        Request                     $request,
-        EntityManagerInterface      $em,
+        Request $request,
+        EntityManagerInterface $em,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserAuthenticatorInterface  $userAuthenticator,
-        AppAuthenticator            $authenticator
-    ): Response
-    {
+        UserAuthenticatorInterface $userAuthenticator,
+        AppAuthenticator $authenticator,
+    ): Response {
         $user = new User();
 
         if ($this->getUser()) {
@@ -34,7 +33,6 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $hash = $userPasswordHasher->hashPassword($user,
                 $user->getPassword());
             $user->setPassword($hash);

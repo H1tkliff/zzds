@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\RankingRepository;
-use App\service\RankingChangeResolver;
+use App\Service\RankingChangeResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,10 +10,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private RankingRepository $rankingRepository,
-        private RankingChangeResolver $rankingChangeResolver
-    )
-    {}
+        private RankingChangeResolver $rankingChangeResolver,
+    ) {
+    }
+
     #[Route('/', name: 'home')]
     public function index(): Response
     {

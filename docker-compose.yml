@@ -1,51 +1,28 @@
-# Объявляем список контейнеров (сервисов)
 services:
 
-  # Контейнер с PHP и Symfony
   php:
-    # Собираем образ из Dockerfile в текущей папке
-    build: .
-
-    # Проброс портов: порт на твоей машине → порт внутри контейнера
-    # Открываешь localhost:8080 — попадаешь в Symfony
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     ports:
       - "8080:8080"
-
-    # Монтируем текущую папку в /app контейнера
-    # Редактируешь файлы у себя — изменения сразу видны в контейнере
-    # Без этого пришлось бы пересобирать образ при каждом изменении
     volumes:
       - .:/app
-
-    # Рабочая директория внутри контейнера
     working_dir: /app
 
-  # Контейнер с базой данных MySQL
   database:
-    # Берём готовый официальный образ MySQL 8.0
-    # Свой Dockerfile не нужен
     image: mysql:8.0
-
-    # Переменные окружения для MySQL
-    # При первом запуске автоматически создаётся база и пользователь
     environment:
-      MYSQL_ROOT_PASSWORD: root       # пароль root пользователя
-      MYSQL_DATABASE: symfony_app     # название базы данных
-      MYSQL_USER: symfony             # имя пользователя
-      MYSQL_PASSWORD: symfony         # пароль пользователя
-
-    # Проброс порта MySQL на твою машину
-    # Можно подключиться через TablePlus, DBeaver и т.д.
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: zzds
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
     ports:
       - "3306:3306"
-
-    # Именованный volume для данных MySQL
-    # Данные хранятся отдельно от контейнера — удаление/пересборка
-    # database-контейнера (или всего проекта через `docker compose down`)
-    # не стирает базу, пока не указан флаг -v
     volumes:
       - db_data:/var/lib/mysql
 
-# Именованные volumes проекта
 volumes:
   db_data:

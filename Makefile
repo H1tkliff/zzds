@@ -1,75 +1,92 @@
 .PHONY: info install setup reset_db up down build composer_install composer_require console sh logs ps migration_create migration_migrate npm_install make_entity make_controller make_form load_fixtures
 .DEFAULT_GOAL := info
 
-info: ## Alle Befehle anzeigen
+info: ## Show all commands
 	@grep -hE '^[a-z_]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  make %-18s %s\n", $$1, $$2}'
 
-setup: up composer_install npm_install npm_dev wait_db reset_db ## Projekt komplett einrichten (inkl. frische DB)
+setup: up composer_install npm_install npm_dev wait_db reset_db ## Full project setup (incl. fresh DB)
 
 wait_db:
 	@echo "Warte auf MySQL..."
 	@until docker compose exec -T database mysqladmin ping -h localhost -uroot -proot --silent; do sleep 2; done
 
-reset_db: ## Datenbank neu aufbauen (Drop, Create, Migrate, Fixtures)
+reset_db: ## Rebuild database (drop, create, migrate, fixtures)
 	docker compose exec php php bin/console doctrine:database:drop --force --if-exists
 	docker compose exec php php bin/console doctrine:database:create
 	docker compose exec php php bin/console doctrine:migrations:migrate -n
 	docker compose exec php php bin/console doctrine:fixtures:load -n
 
-up: ## Container starten
+up: ## Start containers
 	docker compose up -d
 
-down: ## Container stoppen und entfernen
+down: ## Stop and remove containers
 	docker compose down
 
-build: ## Neu bauen und starten
+build: ## Rebuild and start
 	docker compose up -d --build
 
-composer_install: ## composer install im PHP-Container
+composer: ## Run Composer command in the container
+	docker compose exec php composer $(v)
+
+composer_install: ## composer install in the PHP container
 	docker compose exec php composer install
 
-composer_require: ## composer require, z.B. make require p=symfony/mailer
-	docker compose exec php composer require $(p)
+composer_require: ## composer require, e.g. make composer_require v=symfony/mailer
+	docker compose exec php composer require $(v)
 
-console: ## Symfony Console, z.B. make console c=cache:clear
-	docker compose exec php php bin/console $(c)
+console: ## Symfony console, e.g. make console v=cache:clear
+	docker compose exec php php bin/console $(v)
 
-sh: ## Shell im PHP-Container
+sh: ## Shell in the PHP container
 	docker compose exec php bash
 
-logs: ## Logs live verfolgen
+logs: ## Follow logs live
 	docker compose logs -f
 
-ps: ## Containerstatus anzeigen
+ps: ## Show container status
 	docker compose ps
 
 
-migration_create: ## Neue Doctrine-Migration erzeugen
+migration_create: ## Create new Doctrine migration
 	docker compose exec php php bin/console make:migration
 
-migration_migrate: ## Migrationen ausfuehren
+migration_migrate: ## Run migrations
 	docker compose exec php php bin/console doctrine:migrations:migrate
 
-npm_clear_install: ## NPM Clear Install
+npm_clear_install: ## NPM clean install
 	npm ci
 
-npm_dev: ## Assets bauen (encore dev)
+npm_dev: ## Build assets (encore dev)
 	npm run dev
 
-npm_watch: ## Assets bei Aenderungen automatisch neu bauen
+npm_watch: ## Rebuild assets automatically on changes
 	npm run watch
 
-npm_build: ## Assets fuer Produktion bauen
+npm_build: ## Build assets for production
 	npm run build
 
-make_entity: ## Entity Team anlegen/erweitern
+make_entity: ## Create/extend Team entity
 	docker compose exec php php bin/console make:entity Team
 
-make_controller: ## TeamController erzeugen
+make_controller: ## Generate TeamController
 	docker compose exec php php bin/console make:controller TeamController
 
-make_form: ## Formular TeamType erzeugen
+make_form: ## Generate TeamType form
 	docker compose exec php php bin/console make:form TeamType
 
-load_fixtures: ## Fixtures in die Datenbank laden
+load_fixtures: ## Load fixtures into the database
 	docker compose exec php php bin/console doctrine:fixtures:load
+
+phpstan: ## Static analysis
+	docker compose exec php vendor/bin/phpstan analyse
+
+cs_check: ## Check code style (no changes)
+	docker compose exec php vendor/bin/php-cs-fixer fix --dry-run --diff
+
+cs_fix: ## Fix code style automatically
+	docker compose exec php vendor/bin/php-cs-fixer fix
+
+test: ## PHPUnit tests
+	docker compose exec php php bin/phpunit
+
+check: cs_check phpstan test ## Run all checks (before every commit)

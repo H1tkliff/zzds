@@ -5,9 +5,9 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'This email is already in use.')]
@@ -21,23 +21,23 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Name is required')]
     #[Assert\Length(min: 3, max: 100)]
-    private ?string $name = null;
+    private string $name = '';
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Surname is required')]
     #[Assert\Length(min: 3, max: 100)]
-    private ?string $surname = null;
+    private string $surname = '';
 
     #[ORM\Column(length: 100, unique: true)]
     #[Assert\NotBlank(message: 'Email is required')]
     #[Assert\Length(min: 3, max: 100)]
     #[Assert\Email]
-    private ?string $email = null;
+    private string $email = '';
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Password is required')]
     #[Assert\Length(min: 3, max: 100)]
-    private ?string $password = null;
+    private string $password = '';
 
     #[ORM\Column]
     private array $roles = [];
@@ -104,8 +104,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function getRoles(): array
     {
-       $roles = $this->roles;
-       return array_unique($roles);
+        $roles = $this->roles;
+
+        return array_unique($roles);
     }
 
     public function eraseCredentials()
@@ -115,6 +116,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function getUserIdentifier(): string
     {
-       return (string) $this->email;
+        return (string) $this->email;
     }
 }

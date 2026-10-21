@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\DisciplineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 class HeaderController extends AbstractController
 {
     public function __construct(
-        private DisciplineRepository $disciplineRepository,
         private RequestStack $requestStack,
     ) {
     }
@@ -38,13 +36,13 @@ class HeaderController extends AbstractController
 
         return $this->render('page/global/header/header.html.twig', [
             'nav_links' => [
-               // ['label' => 'Matches', 'route' => 'discipline_cs2'],
-                //['label' => 'Rankings', 'route' => 'discipline_cs2'],
-                ['label' => 'Teams', 'route' => $activeDisciplineSlug . '/team_list'],
-               // ['label' => 'Players', 'route' => 'discipline_cs2'],
-               // ['label' => 'Events', 'route' => 'discipline_cs2'],
-               // ['label' => 'Stats', 'route' => 'discipline_cs2'],
-               // ['label' => 'News', 'route' => 'discipline_cs2'],
+                // ['label' => 'Matches', 'route' => 'discipline_cs2'],
+                // ['label' => 'Rankings', 'route' => 'discipline_cs2'],
+                ['label' => 'Teams', 'route' => $activeDisciplineSlug.'/team_list'],
+                // ['label' => 'Players', 'route' => 'discipline_cs2'],
+                // ['label' => 'Events', 'route' => 'discipline_cs2'],
+                // ['label' => 'Stats', 'route' => 'discipline_cs2'],
+                // ['label' => 'News', 'route' => 'discipline_cs2'],
             ],
             'current_route' => $currentRoute,
             'disciplines' => $disciplines,

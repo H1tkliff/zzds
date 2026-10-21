@@ -17,7 +17,6 @@ class TeamFixtures extends Fixture implements DependentFixtureInterface, Fixture
     public const KAMBROD = 'team_kambrod';
     public const FIXIS = 'team_fixis';
 
-
     public function load(ObjectManager $manager): void
     {
         $teams = [

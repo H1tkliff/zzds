@@ -1,6 +1,6 @@
 <?php
 
-namespace App\service;
+namespace App\Service;
 
 use App\Repository\RankingRepository;
 
@@ -14,14 +14,14 @@ class RankingChangeResolver
     {
         $latest = $this->rankingRepository->findLatestShapshotDate();
 
-        if ($latest === null) {
+        if (null === $latest) {
             return [];
         }
 
         $current = $this->rankingRepository->findBySnapshotDate($latest);
 
         $previousDate = $this->rankingRepository->findPreviousSnapshotDate($latest);
-        $previous = $previousDate !== null
+        $previous = null !== $previousDate
             ? $this->rankingRepository->findBySnapshotDate($previousDate)
             : [];
 
@@ -31,7 +31,6 @@ class RankingChangeResolver
                 ? $previous[$teamId]->getPosition() - $ranking->getPosition()
                 : null; // null - new in Ranking
             $result[] = ['ranking' => $ranking, 'change' => $change];
-
         }
 
         usort($result, fn ($a, $b) => $a['ranking']->getPosition() <=> $b['ranking']->getPosition());

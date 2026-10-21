@@ -29,6 +29,7 @@ class RankingRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+
         return $result['snapshotDate'] ?? null;
     }
 
@@ -65,6 +66,4 @@ class RankingRepository extends ServiceEntityRepository
 
         return $byTeam;
     }
-
-
 }

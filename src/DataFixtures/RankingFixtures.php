@@ -38,7 +38,7 @@ class RankingFixtures extends Fixture implements DependentFixtureInterface, Fixt
                     [TeamFixtures::ROTA,       1700, 1.20, 4],
                     [TeamFixtures::FIXIS,      1650, 1.15, 5],
                 ],
-            ]
+            ],
         ];
 
         foreach ($snapshots as $snapshot) {

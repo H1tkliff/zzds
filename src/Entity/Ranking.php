@@ -17,52 +17,57 @@ class Ranking
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $points = null;
+    private int $points = 0;
     #[ORM\Column]
-    private ?float $rating = null;
+    private float $rating = 0.0;
 
     #[ORM\Column]
-    private ?int $position = null;
+    private int $position = 0;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $snapshotDate = null;
+    private \DateTimeImmutable $snapshotDate;
 
-    public function getPoints(): ?int
+    public function __construct()
+    {
+        $this->snapshotDate = new \DateTimeImmutable();
+    }
+
+    public function getPoints(): int
     {
         return $this->points;
     }
 
-    public function setPoints(?int $points): void
+    public function setPoints(int $points): void
     {
         $this->points = $points;
     }
 
-    public function getRating(): ?float
+    public function getRating(): float
     {
         return $this->rating;
     }
 
-    public function setRating(?float $rating): void
+    public function setRating(float $rating): void
     {
         $this->rating = $rating;
     }
 
-    public function getPosition(): ?int
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    public function setPosition(?int $position): void
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
 
-    public function getSnapshotDate(): ?\DateTimeImmutable
+    public function getSnapshotDate(): \DateTimeImmutable
     {
         return $this->snapshotDate;
     }
 
-    public function setSnapshotDate(?\DateTimeImmutable $snapshotDate): void
+    public function setSnapshotDate(\DateTimeImmutable $snapshotDate): void
     {
         $this->snapshotDate = $snapshotDate;
     }
@@ -77,8 +82,8 @@ class Ranking
         return $this->team;
     }
 
-    public function setTeam(?Team $team): void{
+    public function setTeam(?Team $team): void
+    {
         $this->team = $team;
     }
-
 }
