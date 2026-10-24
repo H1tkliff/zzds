@@ -1,0 +1,27 @@
+name: CI
+
+# push только на master, иначе для ветки с открытым PR всё запускается дважды
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, intl, zip
+      - run: composer install --no-progress
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci && npm run build
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff
+      # phpstan-symfony читает var/cache/dev/App_KernelDevDebugContainer.xml
+      - run: php bin/console cache:warmup --env=dev
+      - run: vendor/bin/phpstan analyse --no-progress
+      # shortcut: тесты отложены; когда появятся .env.test и тестовая БД — вернуть сюда сервис mysql и phpunit
