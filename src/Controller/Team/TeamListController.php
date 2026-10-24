@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TeamListController extends AbstractController
 {
-    #[Route('/teams', name: 'team_list')]
+    #[Route('cs2/teams', name: 'cs2/team_list')]
     public function index(TeamRepository $repo): Response
     {
         return $this->render('/page/teams/index.html.twig', [
@@ -21,7 +21,7 @@ class TeamListController extends AbstractController
     #[Route('/team/{id}', name: 'team_show')]
     public function showTeam(Team $team): Response
     {
-        return $this->render('team/index.html.twig', [
+        return $this->render('page/team/index.html.twig', [
             'team' => $team,
         ]);
     }

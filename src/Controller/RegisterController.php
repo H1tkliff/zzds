@@ -8,9 +8,9 @@ use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegisterController extends AbstractController
@@ -21,9 +21,8 @@ class RegisterController extends AbstractController
         EntityManagerInterface $em,
         UserPasswordHasherInterface $userPasswordHasher,
         UserAuthenticatorInterface $userAuthenticator,
-        AppAuthenticator $authenticator
-    ): Response
-    {
+        AppAuthenticator $authenticator,
+    ): Response {
         $user = new User();
 
         if ($this->getUser()) {
@@ -34,7 +33,6 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $hash = $userPasswordHasher->hashPassword($user,
                 $user->getPassword());
             $user->setPassword($hash);
@@ -46,8 +44,11 @@ class RegisterController extends AbstractController
             return $userAuthenticator->authenticateUser($user, $authenticator, $request);
         }
 
-        return $this->render('register/register.html.twig', [
-            'form' => $form
+        return $this->render('page/account/security/login.html.twig', [
+            'form' => $form->createView(),
+            'active_tab' => 'register',
+            'error' => null,
+            'last_username' => null,
         ]);
     }
 }

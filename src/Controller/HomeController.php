@@ -2,12 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use App\Service\RankingChangeResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
+    public function __construct(
+        private RankingChangeResolver $rankingChangeResolver,
+    ) {
+    }
+
     #[Route('/', name: 'home')]
     public function index(): Response
     {
@@ -21,7 +27,7 @@ class HomeController extends AbstractController
             'nav_links' => [
                 ['label' => 'Matches', 'route' => 'discipline_cs2', 'active' => true],
                 ['label' => 'Rankings', 'route' => 'discipline_cs2'],
-                ['label' => 'Teams', 'route' => 'team_list'],
+                ['label' => 'Teams', 'route' => 'cs2/team_list'],
                 ['label' => 'Players', 'route' => 'discipline_cs2'],
                 ['label' => 'Events', 'route' => 'discipline_cs2'],
                 ['label' => 'Stats', 'route' => 'discipline_cs2'],
@@ -96,13 +102,8 @@ class HomeController extends AbstractController
                     'format' => 'Bo3',
                 ],
             ],
-            'rankings' => [
-                ['rank' => 1, 'flag' => '🇺🇦', 'abbr' => 'NaVi', 'points' => 1842, 'rating' => 1.35, 'rating_pct' => 95, 'change' => '—'],
-                ['rank' => 2, 'flag' => '🇫🇷', 'abbr' => 'Vitality', 'points' => 1790, 'rating' => 1.28, 'rating_pct' => 88, 'change' => '+1'],
-                ['rank' => 3, 'flag' => '🇪🇺', 'abbr' => 'FaZe', 'points' => 1755, 'rating' => 1.24, 'rating_pct' => 84, 'change' => '-1'],
-                ['rank' => 4, 'flag' => '🇩🇪', 'abbr' => 'MOUZ', 'points' => 1698, 'rating' => 1.19, 'rating_pct' => 79, 'change' => '+2'],
-                ['rank' => 5, 'flag' => '🇪🇸', 'abbr' => 'G2', 'points' => 1644, 'rating' => 1.15, 'rating_pct' => 74, 'change' => '-1'],
-            ],
+            'rankings' => $this->rankingChangeResolver->getLatestRankingWithChange(),
+
             'top_players' => [
                 ['rank' => 1, 'avatar' => 's1', 'nick' => 's1mple', 'team' => 'NaVi', 'rating' => '1.42'],
                 ['rank' => 2, 'avatar' => 'ZW', 'nick' => 'ZywOo', 'team' => 'Vitality', 'rating' => '1.38'],

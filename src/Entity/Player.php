@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -16,17 +15,17 @@ class Player
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nickname = null;
+    private string $nickname = '';
 
     #[ORM\Column]
-    private ?float $rating = null;
+    private float $rating = 0.0;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNickname(): ?string
+    public function getNickname(): string
     {
         return $this->nickname;
     }
@@ -38,7 +37,7 @@ class Player
         return $this;
     }
 
-    public function getRating(): ?float
+    public function getRating(): float
     {
         return $this->rating;
     }

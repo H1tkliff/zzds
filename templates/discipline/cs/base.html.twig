@@ -10,7 +10,6 @@
 
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 
     {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
@@ -24,43 +23,35 @@
 {% block header %}
     {{ render(controller('App\\Controller\\HeaderController::header')) }}
 {% endblock %}
-{% block nav %}
-    <nav>
-        <a href="{{ path('team_list') }}">Teams</a>
-        <a href="{{ path('app_register') }}">Register</a>
-        <a href="{{ path('app_login') }}">Login</a>
-        <a href="{{ path('app_account') }}">Account</a>
-    </nav>
-{% endblock %}
 {% block body %}
 
         <div class="layout">
             <div class="main">
 
                 {# Live Matches #}
-                <div class="mb16">
-                    <div class="section-header">
-                        <div class="live-dot"></div>
-                        <div class="section-title">Live Matches</div>
-                        <div class="section-meta">{{ live_matches|length }} ongoing</div>
-                    </div>
+{#                <div class="mb16">#}
+{#                    <div class="section-header">#}
+{#                        <div class="live-dot"></div>#}
+{#                        <div class="section-title">Live Matches</div>#}
+{#                        <div class="section-meta">{{ live_matches|length }} ongoing</div>#}
+{#                    </div>#}
 
-                    {% for match in live_matches %}
-                        {% include 'components/match_card.html.twig' with { match: match } %}
-                    {% endfor %}
-                </div>
+{#                    {% for match in live_matches %}#}
+{#                        {% include 'components/match_card.html.twig' with { match: match } %}#}
+{#                    {% endfor %}#}
+{#                </div>#}
 
                 {# Upcoming Matches #}
-                <div class="mb16">
-                    <div class="section-header">
-                        <div class="section-title">Upcoming</div>
-                        <div class="section-meta">Today · {{ upcoming_matches|length }} matches</div>
-                    </div>
+{#                <div class="mb16">#}
+{#                    <div class="section-header">#}
+{#                        <div class="section-title">Upcoming</div>#}
+{#                        <div class="section-meta">Today · {{ upcoming_matches|length }} matches</div>#}
+{#                    </div>#}
 
-                    {% for match in upcoming_matches %}
-                        {% include 'components/upcoming_card.html.twig' with { match: match } %}
-                    {% endfor %}
-                </div>
+{#                    {% for match in upcoming_matches %}#}
+{#                        {% include 'components/upcoming_card.html.twig' with { match: match } %}#}
+{#                    {% endfor %}#}
+{#                </div>#}
 
                 {# World Rankings #}
                 <div class="mb16">

@@ -27,124 +27,13 @@
         <div class="card-body">
 
             <div class="tabs">
-                <span class="tab active" data-tab="login" data-action="click->login#switchTab">Sign In</span>
-                <span class="tab" data-tab="register" data-action="click->login#switchTab">Register</span>
+                <span class="tab {{ active_tab|default('login') == 'login' ? 'active' }}" data-tab="login" data-action="click->login#switchTab">Sign In</span>
+                <span class="tab {{ active_tab|default('login') == 'register' ? 'active' }}" data-tab="register" data-action="click->login#switchTab">Register</span>
             </div>
 
-            {# LOGIN FORM #}
-            <div id="form-login">
-                {% if error %}
-                    <div class="login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+            {% include 'page/account/login/login.html.twig' %}
 
-                <form method="post">
-                    <div class="field">
-                        <div class="field-label">Email Address</div>
-                        <div class="field-wrap">
-                            <div class="field-icon">@</div>
-                            <input class="field-input" type="email" name="email"
-                                   value="{{ last_username }}"
-                                   placeholder="you@example.com"
-                                   autocomplete="email" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="field-label">
-                            Password
-                            <a href="#">Forgot password?</a>
-                        </div>
-                        <div class="field-wrap">
-                            <div class="field-icon">⬡</div>
-                            <input class="field-input" type="password" name="password"
-                                   placeholder="••••••••"
-                                   autocomplete="current-password" required>
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                    <div class="check-row">
-                        <div class="check-box"></div>
-                        <div class="check-label">Keep me signed in for 30 days</div>
-                        <input type="checkbox" name="_remember_me" style="display:none">
-                    </div>
-
-                    <button class="btn-submit" type="submit">Sign In</button>
-                </form>
-
-                <div class="divider">
-                    <div class="divider-line"></div>
-                    <div class="divider-text">or continue with</div>
-                    <div class="divider-line"></div>
-                </div>
-
-                <div class="oauth-row">
-                    <button class="btn-oauth" type="button"><span class="oauth-icon">◈</span> Steam</button>
-                    <button class="btn-oauth" type="button"><span class="oauth-icon">◉</span> Discord</button>
-                    <button class="btn-oauth" type="button"><span class="oauth-icon">◎</span> Google</button>
-                </div>
-            </div>
-
-            {# REGISTER FORM #}
-            <div id="form-register" style="display:none">
-                <form method="post" action="{{ path('app_register') }}">
-                    <div class="field">
-                        <div class="field-label">Username</div>
-                        <div class="field-wrap">
-                            <div class="field-icon">#</div>
-                            <input class="field-input" type="text" name="username" placeholder="your_nickname">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="field-label">Email Address</div>
-                        <div class="field-wrap">
-                            <div class="field-icon">@</div>
-                            <input class="field-input" type="email" name="email" placeholder="you@example.com">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="field-label">Password</div>
-                        <div class="field-wrap">
-                            <div class="field-icon">⬡</div>
-                            <input class="field-input" type="password" name="password"
-                                   placeholder="min. 8 characters"
-                                   data-action="input->login#checkStrength"
-                                   data-login-target="strengthInput">
-                        </div>
-                        <div class="strength" data-login-target="strengthWrap">
-                            <div class="strength-bars">
-                                <div class="strength-bar" data-login-target="strengthBar"></div>
-                                <div class="strength-bar" data-login-target="strengthBar"></div>
-                                <div class="strength-bar" data-login-target="strengthBar"></div>
-                                <div class="strength-bar" data-login-target="strengthBar"></div>
-                            </div>
-                            <div class="strength-label" data-login-target="strengthLabel"></div>
-                        </div>
-                    </div>
-
-                    <div class="check-row">
-                        <div class="check-box"></div>
-                        <div class="check-label">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></div>
-                    </div>
-
-                    <button class="btn-submit" type="submit">Create Account</button>
-
-                    <div class="divider">
-                        <div class="divider-line"></div>
-                        <div class="divider-text">or register with</div>
-                        <div class="divider-line"></div>
-                    </div>
-
-                    <div class="oauth-row">
-                        <button class="btn-oauth" type="button"><span class="oauth-icon">◈</span> Steam</button>
-                        <button class="btn-oauth" type="button"><span class="oauth-icon">◉</span> Discord</button>
-                        <button class="btn-oauth" type="button"><span class="oauth-icon">◎</span> Google</button>
-                    </div>
-                </form>
-            </div>
+            {% include 'page/account/register/register.html.twig' %}
 
         </div>
 
