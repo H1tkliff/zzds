@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\PlayerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: PlayerRepository::class)]
 class Player
 {
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'players')]
@@ -47,6 +48,11 @@ class Player
         $this->rating = $rating;
 
         return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
     }
 
     public function setTeam(Team $team): void

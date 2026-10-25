@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class SmokeTest extends WebTestCase
@@ -55,5 +56,36 @@ final class SmokeTest extends WebTestCase
         $client->request('GET', '/cs2/team/999999-x');
 
         self::assertResponseStatusCodeSame(404);
+    }
+
+    public function testHomeShowsNoPlaceholderData(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/cs2');
+
+        foreach (['s1mple', 'NaVi', 'IEM Cologne', 'Platform Stats'] as $placeholder) {
+            self::assertSelectorTextNotContains('body', $placeholder);
+        }
+    }
+
+    public function testAccountRequiresLogin(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/account');
+
+        self::assertResponseRedirects('/login');
+    }
+
+    public function testAccountShowsLoggedInUser(): void
+    {
+        $client = static::createClient();
+        $user = static::getContainer()->get(UserRepository::class)->findOneBy([]);
+        self::assertNotNull($user, 'No users in the test database, load the fixtures first (make test_db).');
+
+        $client->loginUser($user);
+        $client->request('GET', '/account');
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('body', (string) $user->getEmail());
     }
 }

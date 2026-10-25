@@ -1,4 +1,4 @@
-<nav class="nav" data-controller="header">
+<nav class="nav">
     <a href="{{ path('home') }}" class="nav-logo">ZZ<span>D</span>S</a>
 
     <div class="nav-links">
@@ -12,10 +12,11 @@
 
     <div class="nav-disc">
         {% for disc in disciplines %}
-            <span class="disc-pill{{ disc.active is defined and disc.active ? ' active' : '' }}"
-                  data-discipline="{{ disc.label }}">
-                {{ disc.label }}
-            </span>
+            {% if disc.url %}
+                <a href="{{ disc.url }}" class="disc-pill{{ disc.active ? ' active' }}">{{ disc.label }}</a>
+            {% else %}
+                <span class="disc-pill disabled" title="Coming soon">{{ disc.label }}</span>
+            {% endif %}
         {% endfor %}
     </div>
 

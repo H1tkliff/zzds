@@ -1,11 +1,11 @@
 {# components/rankings_table.html.twig
    Variables:
    - teams: array of App\Entity\Ranking (position, team, points, rating, snapshotDate)
-   - meta: string (e.g. "Updated 2h ago")
+   - meta: ?string (e.g. "Updated 24 Oct 2026")
 #}
 <div class="section-header">
     <div class="section-title">World Rankings</div>
-    <div class="section-meta">{{ meta ?? 'Updated recently' }}</div>
+    <div class="section-meta">{{ meta }}</div>
 </div>
 
 <table class="table">
@@ -26,7 +26,7 @@
                     <div class="rank-num{{ ranking.position <= 3 ? ' top3' : '' }}">{{ ranking.position }}</div>
                 </td>
                 <td>
-                    <div class="team-cell">{{ ranking.team.name }}</div>
+                    <a href="{{ path('cs2_team_show', {id: ranking.team.id, slug: ranking.team.slug}) }}" class="team-cell">{{ ranking.team.name }}</a>
                 </td>
                 <td class="points-val">{{ ranking.points }}</td>
                 <td>
@@ -44,6 +44,8 @@
                     {% endif %}
                 </td>
             </tr>
+        {% else %}
+            <tr><td colspan="5" class="widget-empty">No ranking yet</td></tr>
         {% endfor %}
     </tbody>
 </table>

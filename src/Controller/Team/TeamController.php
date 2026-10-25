@@ -15,8 +15,8 @@ final class TeamController extends AbstractController
     #[Route('/teams', name: 'team_list')]
     public function index(TeamRepository $repo): Response
     {
-        return $this->render('/page/teams/index.html.twig', [
-            'teams' => $repo->findAll(),
+        return $this->render('page/teams/index.html.twig', [
+            'teams' => $repo->findAllWithPlayers(),
         ]);
     }
 

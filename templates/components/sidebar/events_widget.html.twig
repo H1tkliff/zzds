@@ -1,6 +1,6 @@
 {# components/sidebar/events_widget.html.twig
    Variables:
-   - events: array of {name, date, prize, soon: bool}
+   - events: array of {name, date, prize, soon: bool}; empty until the Event entity exists (step 1.2)
 #}
 <div class="widget">
     <div class="widget-title">Upcoming Events</div>
@@ -14,5 +14,7 @@
             </div>
             <div class="event-prize">{{ event.prize }}</div>
         </div>
+    {% else %}
+        <div class="widget-empty">No upcoming events</div>
     {% endfor %}
 </div>

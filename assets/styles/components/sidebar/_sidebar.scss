@@ -9,6 +9,13 @@
   margin-bottom: 20px;
 }
 
+.widget-empty {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $text3;
+  padding: 8px 0;
+}
+
 .widget-title {
   font-family: $font-head;
   font-size: 13px;
@@ -138,41 +145,4 @@
   font-family: $font-mono;
   font-size: 10px;
   color: $accent2;
-}
-
-// Stats widget
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-}
-
-.stat-box {
-  background: $bg2;
-  border: 1px solid $border;
-  padding: 10px;
-  border-radius: 2px;
-  transition: border-color 0.15s;
-
-  &:hover {
-    border-color: $accent-dim;
-  }
-}
-
-.stat-val {
-  font-family: $font-mono;
-  font-size: 20px;
-  font-weight: 500;
-  color: $accent;
-  line-height: 1;
-  text-shadow: 0 0 12px rgba(77, 159, 255, 0.3);
-}
-
-.stat-label {
-  font-family: $font-mono;
-  font-size: 9px;
-  color: $text3;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 3px;
 }

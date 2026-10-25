@@ -105,6 +105,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+        // every logged-in user is at least a user, whatever is stored in the database
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
