@@ -23,61 +23,6 @@
 {% block header %}
     {{ render(controller('App\\Controller\\HeaderController::header')) }}
 {% endblock %}
-{% block body %}
-
-    <div class="layout">
-        <div class="main">
-
-            {# Live Matches #}
-            <div class="mb16">
-                <div class="section-header">
-                    <div class="live-dot"></div>
-                    <div class="section-title">Live Matches</div>
-                    <div class="section-meta">{{ live_matches|length }} ongoing</div>
-                </div>
-
-                {% for match in live_matches %}
-                    {% include 'components/match_card.html.twig' with { match: match } %}
-                {% endfor %}
-            </div>
-
-            {# Upcoming Matches #}
-            <div class="mb16">
-                <div class="section-header">
-                    <div class="section-title">Upcoming</div>
-                    <div class="section-meta">Today · {{ upcoming_matches|length }} matches</div>
-                </div>
-
-                {% for match in upcoming_matches %}
-                    {% include 'components/upcoming_card.html.twig' with { match: match } %}
-                {% endfor %}
-            </div>
-
-            {# World Rankings #}
-            <div class="mb16">
-                {% include 'components/rankings_table.html.twig' with {
-                    teams: rankings,
-                    meta: 'Updated 2h ago'
-                } %}
-            </div>
-
-        </div>
-
-        <div class="sidebar">
-            {% include 'components/sidebar/players_widget.html.twig' with {
-                players: top_players,
-                period: 'This Month'
-            } %}
-
-            {% include 'components/sidebar/events_widget.html.twig' with {
-                events: upcoming_events
-            } %}
-
-            {% include 'components/sidebar/stats_widget.html.twig' with {
-                stats: platform_stats
-            } %}
-        </div>
-    </div>
-{% endblock %}
+{% block body %}{% endblock %}
 </body>
 </html>

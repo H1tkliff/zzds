@@ -14,16 +14,16 @@ class PlayerFixtures extends Fixture implements DependentFixtureInterface, Fixtu
     public function load(ObjectManager $manager): void
     {
         $players = [
-            ['nickname' => 'Alaront', 'rating' => 1.0, 'team' => TeamFixtures::KAMBROD],
-            ['nickname' => 'VafelPafel', 'rating' => 1.0, 'team' => TeamFixtures::KAMBROD],
-            ['nickname' => 'Тихий Дэн', 'rating' => 1.0, 'team' => TeamFixtures::ROTA],
-            ['nickname' => 'Valera', 'rating' => 1.0, 'team' => TeamFixtures::ROTA],
-            ['nickname' => 'Вездессун', 'rating' => 1.0, 'team' => TeamFixtures::CHMOGATIRI],
-            ['nickname' => 'Mrazish Χριστός', 'rating' => 1.0, 'team' => TeamFixtures::CHMOGATIRI],
-            ['nickname' => 'Nelatod', 'rating' => 1.0, 'team' => TeamFixtures::FIXIS],
-            ['nickname' => 'Ivan', 'rating' => 1.0, 'team' => TeamFixtures::FIXIS],
-            ['nickname' => 'Saseb1', 'rating' => 1.0, 'team' => TeamFixtures::VZVOD],
-            ['nickname' => 'Saseb2', 'rating' => 1.0, 'team' => TeamFixtures::VZVOD],
+            ['nickname' => 'Alaront', 'rating' => 1.18, 'team' => TeamFixtures::KAMBROD],
+            ['nickname' => 'VafelPafel', 'rating' => 0.97, 'team' => TeamFixtures::KAMBROD],
+            ['nickname' => 'Тихий Дэн', 'rating' => 1.05, 'team' => TeamFixtures::ROTA],
+            ['nickname' => 'Valera', 'rating' => 0.91, 'team' => TeamFixtures::ROTA],
+            ['nickname' => 'Вездессун', 'rating' => 1.22, 'team' => TeamFixtures::CHMOGATIRI],
+            ['nickname' => 'Mrazish Χριστός', 'rating' => 1.09, 'team' => TeamFixtures::CHMOGATIRI],
+            ['nickname' => 'Nelatod', 'rating' => 0.88, 'team' => TeamFixtures::FIXIS],
+            ['nickname' => 'Ivan', 'rating' => 1.01, 'team' => TeamFixtures::FIXIS],
+            ['nickname' => 'Saseb1', 'rating' => 1.14, 'team' => TeamFixtures::VZVOD],
+            ['nickname' => 'Saseb2', 'rating' => 0.95, 'team' => TeamFixtures::VZVOD],
         ];
 
         foreach ($players as $data) {

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Discipline;
 use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,28 +17,20 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
-    //    /**
-    //     * @return Player[] Returns an array of Player objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Player
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Player[]
+     */
+    public function findTopRated(Discipline $discipline, int $limit): array
+    {
+        // shortcut: uses the static Player.rating; switch to aggregated PlayerMapStats in step 1.5
+        return $this->createQueryBuilder('p')
+            ->addSelect('t')
+            ->join('p.team', 't')
+            ->where('t.discipline = :discipline')
+            ->setParameter('discipline', $discipline)
+            ->orderBy('p.rating', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

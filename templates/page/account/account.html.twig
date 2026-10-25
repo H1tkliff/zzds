@@ -1,18 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}Account · ZZDS{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+<div class="teams-wrap">
+    <div class="page-head">
+        <div class="page-title">
+            {{ app.user.name }} {{ app.user.surname }}
+            <small>{{ app.user.email }}</small>
         </div>
-    {% else %}
-        Nicht eingeloggt
-    {% endif %}
+    </div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>{{ app.user.name }} {{ app.user.surname }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ app.user.email }}</td>
+            </tr>
+            <tr>
+                <td>Roles</td>
+                <td>{{ app.user.roles|map(role => role|replace({'ROLE_': ''})|lower)|join(', ') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_logout') }}" class="btn-login">Logout</a>
+</div>
 {% endblock %}
