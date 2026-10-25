@@ -27,6 +27,20 @@ class Ranking
     #[ORM\Column]
     private \DateTimeImmutable $snapshotDate;
 
+    #[ORM\ManyToOne(targetEntity: Discipline::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Discipline $discipline;
+
+    public function getDiscipline(): Discipline
+    {
+        return $this->discipline;
+    }
+
+    public function setDiscipline(Discipline $discipline): void
+    {
+        $this->discipline = $discipline;
+    }
+
     public function __construct()
     {
         $this->snapshotDate = new \DateTimeImmutable();

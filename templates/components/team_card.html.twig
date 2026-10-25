@@ -2,7 +2,7 @@
    Variables:
    - team: Team entity with name, players (Collection), discipline
 #}
-<a href="{{ path('team_show', {id: team.id}) }}" class="team-card">
+<a href="{{ path('cs2_team_show', {id: team.id, slug: team.slug}) }}" class="team-card">
     <div class="tc-logo">{{ team.name|slice(0,3)|upper }}</div>
 
     <div class="tc-info">

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\DisciplineRepository;
 use App\Service\RankingChangeResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,21 +18,23 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        return $this->redirectToRoute('discipline_cs2');
+        return $this->redirectToRoute('cs2_home');
     }
 
-    #[Route('/cs2', name: 'discipline_cs2')]
-    public function cs2(): Response
+    #[Route('/cs2', name: 'cs2_home')]
+    public function cs2(DisciplineRepository $disciplines): Response
     {
+        $cs2 = $disciplines->findOneBy(['slug' => 'cs2']) ?? throw $this->createNotFoundException();
+
         return $this->render('discipline/cs/base.html.twig', [
             'nav_links' => [
-                ['label' => 'Matches', 'route' => 'discipline_cs2', 'active' => true],
-                ['label' => 'Rankings', 'route' => 'discipline_cs2'],
-                ['label' => 'Teams', 'route' => 'cs2/team_list'],
-                ['label' => 'Players', 'route' => 'discipline_cs2'],
-                ['label' => 'Events', 'route' => 'discipline_cs2'],
-                ['label' => 'Stats', 'route' => 'discipline_cs2'],
-                ['label' => 'News', 'route' => 'discipline_cs2'],
+                ['label' => 'Matches', 'route' => 'cs2_home', 'active' => true],
+                ['label' => 'Rankings', 'route' => 'cs2_home'],
+                ['label' => 'Teams', 'route' => 'cs2_team_list'],
+                ['label' => 'Players', 'route' => 'cs2_home'],
+                ['label' => 'Events', 'route' => 'cs2_home'],
+                ['label' => 'Stats', 'route' => 'cs2_home'],
+                ['label' => 'News', 'route' => 'cs2_home'],
             ],
             'disciplines' => [
                 ['label' => 'CS2', 'active' => true],
@@ -102,7 +105,7 @@ class HomeController extends AbstractController
                     'format' => 'Bo3',
                 ],
             ],
-            'rankings' => $this->rankingChangeResolver->getLatestRankingWithChange(),
+            'rankings' => $this->rankingChangeResolver->getLatestRankingWithChange($cs2),
 
             'top_players' => [
                 ['rank' => 1, 'avatar' => 's1', 'nick' => 's1mple', 'team' => 'NaVi', 'rating' => '1.42'],

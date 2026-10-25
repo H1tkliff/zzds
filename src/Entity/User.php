@@ -109,9 +109,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return array_unique($roles);
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        // nothing to erase: the plain password is never stored on the entity
     }
 
     public function getUserIdentifier(): string

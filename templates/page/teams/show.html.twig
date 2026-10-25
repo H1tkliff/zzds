@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ team.name }} · ZZDS{% endblock %}
+
+{% block body %}
+    <div class="teams-wrap">
+        <div class="page-head">
+            <div class="page-title">
+                {{ team.name }}
+                <small>{{ team.discipline.name }}</small>
+            </div>
+        </div>
+
+        <h3>Roster</h3>
+        {% for player in team.players %}
+            <div class="tf-player">
+                <div class="tf-avatar">{{ player.nickname|slice(0,2)|upper }}</div>
+                <div class="tf-nick">{{ player.nickname }}</div>
+            </div>
+        {% else %}
+            <span class="tf-empty">No players registered</span>
+        {% endfor %}
+
+        <a href="{{ path('cs2_team_list') }}">← All teams</a>
+    </div>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Discipline;
 use App\Entity\Ranking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,10 +22,12 @@ class RankingRepository extends ServiceEntityRepository
         return $this->findAll();
     }
 
-    public function findLatestShapshotDate(): ?\DateTimeImmutable
+    public function findLatestSnapshotDate(Discipline $discipline): ?\DateTimeImmutable
     {
         $result = $this->createQueryBuilder('r')
             ->select('r.snapshotDate')
+            ->where('r.discipline = :discipline')
+            ->setParameter('discipline', $discipline)
             ->orderBy('r.snapshotDate', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
@@ -33,12 +36,14 @@ class RankingRepository extends ServiceEntityRepository
         return $result['snapshotDate'] ?? null;
     }
 
-    public function findPreviousSnapshotDate(\DateTimeImmutable $before): ?\DateTimeImmutable
+    public function findPreviousSnapshotDate(Discipline $discipline, \DateTimeImmutable $before): ?\DateTimeImmutable
     {
         $result = $this->createQueryBuilder('r')
             ->select('r.snapshotDate')
-            ->where('r.snapshotDate <= :before')
-            ->setParameter(':before', date($before->format('Y-m-d H:i:s')))
+            ->where('r.discipline = :discipline')
+            ->andWhere('r.snapshotDate < :before')
+            ->setParameter('discipline', $discipline)
+            ->setParameter('before', $before)
             ->orderBy('r.snapshotDate', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
@@ -47,12 +52,14 @@ class RankingRepository extends ServiceEntityRepository
         return $result['snapshotDate'] ?? null;
     }
 
-    public function findBySnapshotDate(\DateTimeImmutable $snapshotDate): array
+    public function findBySnapshotDate(Discipline $discipline, \DateTimeImmutable $snapshotDate): array
     {
         $rankings = $this->createQueryBuilder('r')
             ->addSelect('t')
             ->join('r.team', 't')
-            ->where('r.snapshotDate = :date')
+            ->where('r.discipline = :discipline')
+            ->andWhere('r.snapshotDate = :date')
+            ->setParameter('discipline', $discipline)
             ->setParameter('date', $snapshotDate)
             ->orderBy('r.position', 'ASC')
             ->getQuery()
@@ -61,7 +68,7 @@ class RankingRepository extends ServiceEntityRepository
         $byTeam = [];
 
         foreach ($rankings as $ranking) {
-            $byTeam[$ranking->getTeam()->getName()] = $ranking;
+            $byTeam[$ranking->getTeam()->getId()] = $ranking;
         }
 
         return $byTeam;
