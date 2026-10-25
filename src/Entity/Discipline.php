@@ -16,6 +16,19 @@ class Discipline
     #[ORM\Column(length: 255)]
     private string $name = '';
 
+    #[ORM\Column(length: 50, unique: true)]
+    private string $slug = '';
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

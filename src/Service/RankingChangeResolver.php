@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Discipline;
 use App\Repository\RankingRepository;
 
 class RankingChangeResolver
@@ -10,9 +11,9 @@ class RankingChangeResolver
     {
     }
 
-    public function getLatestRankingWithChange(): array
+    public function getLatestRankingWithChange(Discipline $discipline): array
     {
-        $latest = $this->rankingRepository->findLatestShapshotDate();
+        $latest = $this->rankingRepository->findLatestSnapshotDate($discipline);
 
         if (null === $latest) {
             return [];

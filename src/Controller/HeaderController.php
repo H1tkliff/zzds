@@ -36,13 +36,13 @@ class HeaderController extends AbstractController
 
         return $this->render('page/global/header/header.html.twig', [
             'nav_links' => [
-                // ['label' => 'Matches', 'route' => 'discipline_cs2'],
-                // ['label' => 'Rankings', 'route' => 'discipline_cs2'],
-                ['label' => 'Teams', 'route' => $activeDisciplineSlug.'/team_list'],
-                // ['label' => 'Players', 'route' => 'discipline_cs2'],
-                // ['label' => 'Events', 'route' => 'discipline_cs2'],
-                // ['label' => 'Stats', 'route' => 'discipline_cs2'],
-                // ['label' => 'News', 'route' => 'discipline_cs2'],
+                // ['label' => 'Matches', 'route' => 'cs2_home'],
+                // ['label' => 'Rankings', 'route' => 'cs2_home'],
+                ['label' => 'Teams', 'route' => $activeDisciplineSlug.'_team_list'],
+                // ['label' => 'Players', 'route' => 'cs2_home'],
+                // ['label' => 'Events', 'route' => 'cs2_home'],
+                // ['label' => 'Stats', 'route' => 'cs2_home'],
+                // ['label' => 'News', 'route' => 'cs2_home'],
             ],
             'current_route' => $currentRoute,
             'disciplines' => $disciplines,

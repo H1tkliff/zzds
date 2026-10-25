@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Discipline;
 use App\Entity\Ranking;
 use App\Entity\Team;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,7 +14,7 @@ class RankingFixtures extends Fixture implements DependentFixtureInterface, Fixt
 {
     public function getDependencies(): array
     {
-        return [TeamFixtures::class];
+        return [TeamFixtures::class, DisciplineFixtures::class];
     }
 
     public function load(ObjectManager $manager): void
@@ -49,6 +50,7 @@ class RankingFixtures extends Fixture implements DependentFixtureInterface, Fixt
                 $ranking->setRating($rating);
                 $ranking->setPosition($position);
                 $ranking->setSnapshotDate($snapshot['date']);
+                $ranking->setDiscipline($this->getReference(DisciplineFixtures::CS2, Discipline::class));
                 $manager->persist($ranking);
             }
         }

@@ -25,7 +25,7 @@
                             <div class="tf-disc">{{ team.discipline.name }}</div>
                         {% endif %}
                     </div>
-                    <a href="{{ path('team_show', {id: team.id}) }}" class="tf-link">View team →</a>
+                    <a href="{{ path('cs2_team_show', {id: team.id, slug: team.slug}) }}" class="tf-link">View team →</a>
                     <div class="tf-chevron">▾</div>
                 </div>
                 <div class="tf-players-collapse">

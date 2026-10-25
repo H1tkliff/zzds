@@ -15,13 +15,14 @@ class DisciplineFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $disciplines = [
-            self::CS2 => 'CS2',
-            self::HEARTHSTONE => 'Hearthstone',
+            self::CS2 => ['name' => 'CS2', 'slug' => 'cs2'],
+            self::HEARTHSTONE => ['name' => 'Hearthstone', 'slug' => 'hearthstone'],
         ];
 
-        foreach ($disciplines as $reference => $name) {
+        foreach ($disciplines as $reference => $data) {
             $discipline = new Discipline();
-            $discipline->setName($name);
+            $discipline->setName($data['name']);
+            $discipline->setSlug($data['slug']);
             $manager->persist($discipline);
 
             $this->addReference($reference, $discipline);

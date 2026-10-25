@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Discipline;
 use App\Entity\Ranking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,10 +22,12 @@ class RankingRepository extends ServiceEntityRepository
         return $this->findAll();
     }
 
-    public function findLatestShapshotDate(): ?\DateTimeImmutable
+    public function findLatestSnapshotDate(Discipline $discipline): ?\DateTimeImmutable
     {
         $result = $this->createQueryBuilder('r')
             ->select('r.snapshotDate')
+            ->where('r.discipline = :discipline')
+            ->setParameter('discipline', $discipline)
             ->orderBy('r.snapshotDate', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
@@ -37,8 +40,8 @@ class RankingRepository extends ServiceEntityRepository
     {
         $result = $this->createQueryBuilder('r')
             ->select('r.snapshotDate')
-            ->where('r.snapshotDate <= :before')
-            ->setParameter(':before', date($before->format('Y-m-d H:i:s')))
+            ->where('r.snapshotDate < :before')
+            ->setParameter('before', $before)
             ->orderBy('r.snapshotDate', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
@@ -61,7 +64,7 @@ class RankingRepository extends ServiceEntityRepository
         $byTeam = [];
 
         foreach ($rankings as $ranking) {
-            $byTeam[$ranking->getTeam()->getName()] = $ranking;
+            $byTeam[$ranking->getTeam()->getId()] = $ranking;
         }
 
         return $byTeam;

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity]
 class Team
@@ -25,8 +26,8 @@ class Team
         $this->players = new ArrayCollection();
     }
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $name = null;
+    #[ORM\Column(length: 255)]
+    private string $name = '';
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
@@ -36,12 +37,12 @@ class Team
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(?string $name): static
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -75,5 +76,10 @@ class Team
         $this->discipline = $discipline;
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return (new AsciiSlugger())->slug($this->name)->lower()->toString();
     }
 }
