@@ -1,4 +1,4 @@
-.PHONY: info install setup reset_db up down build composer_install composer_require console sh logs ps migration_create migration_migrate npm_install make_entity make_controller make_form load_fixtures
+.PHONY: info install setup reset_db up down build composer_install composer_require console sh logs ps migration_create migration_migrate npm_install make_entity make_controller make_form load_fixtures composer phpstan cs_check cs_fix test_db test check
 .DEFAULT_GOAL := info
 
 info: ## Show all commands
@@ -7,7 +7,7 @@ info: ## Show all commands
 setup: up composer_install npm_install npm_dev wait_db reset_db ## Full project setup (incl. fresh DB)
 
 wait_db:
-	@echo "Warte auf MySQL..."
+	@echo "Waiting for MySQL..."
 	@until docker compose exec -T database mysqladmin ping -h localhost -uroot -proot --silent; do sleep 2; done
 
 reset_db: ## Rebuild database (drop, create, migrate, fixtures)
@@ -65,14 +65,14 @@ npm_watch: ## Rebuild assets automatically on changes
 npm_build: ## Build assets for production
 	npm run build
 
-make_entity: ## Create/extend Team entity
-	docker compose exec php php bin/console make:entity Team
+make_entity: ## Create/extend entity, e.g. make make_entity v=Team
+	docker compose exec php php bin/console make:entity $(v)
 
-make_controller: ## Generate TeamController
-	docker compose exec php php bin/console make:controller TeamController
+make_controller: ## Generate controller, e.g. make make_controller v=PlayerController
+	docker compose exec php php bin/console make:controller $(v)
 
-make_form: ## Generate TeamType form
-	docker compose exec php php bin/console make:form TeamType
+make_form: ## Generate form, e.g. make make_form v=TeamType
+	docker compose exec php php bin/console make:form $(v)
 
 load_fixtures: ## Load fixtures into the database
 	docker compose exec php php bin/console doctrine:fixtures:load
@@ -85,6 +85,12 @@ cs_check: ## Check code style (no changes)
 
 cs_fix: ## Fix code style automatically
 	docker compose exec php vendor/bin/php-cs-fixer fix
+
+test_db: ## Rebuild test database (drop, create, migrate, fixtures)
+	docker compose exec php php bin/console doctrine:database:drop --force --if-exists --env=test
+	docker compose exec php php bin/console doctrine:database:create --env=test
+	docker compose exec php php bin/console doctrine:migrations:migrate -n --env=test
+	docker compose exec php php bin/console doctrine:fixtures:load -n --env=test
 
 test: ## PHPUnit tests
 	docker compose exec php php bin/phpunit

@@ -36,11 +36,13 @@ class RankingRepository extends ServiceEntityRepository
         return $result['snapshotDate'] ?? null;
     }
 
-    public function findPreviousSnapshotDate(\DateTimeImmutable $before): ?\DateTimeImmutable
+    public function findPreviousSnapshotDate(Discipline $discipline, \DateTimeImmutable $before): ?\DateTimeImmutable
     {
         $result = $this->createQueryBuilder('r')
             ->select('r.snapshotDate')
-            ->where('r.snapshotDate < :before')
+            ->where('r.discipline = :discipline')
+            ->andWhere('r.snapshotDate < :before')
+            ->setParameter('discipline', $discipline)
             ->setParameter('before', $before)
             ->orderBy('r.snapshotDate', 'DESC')
             ->setMaxResults(1)
@@ -50,12 +52,14 @@ class RankingRepository extends ServiceEntityRepository
         return $result['snapshotDate'] ?? null;
     }
 
-    public function findBySnapshotDate(\DateTimeImmutable $snapshotDate): array
+    public function findBySnapshotDate(Discipline $discipline, \DateTimeImmutable $snapshotDate): array
     {
         $rankings = $this->createQueryBuilder('r')
             ->addSelect('t')
             ->join('r.team', 't')
-            ->where('r.snapshotDate = :date')
+            ->where('r.discipline = :discipline')
+            ->andWhere('r.snapshotDate = :date')
+            ->setParameter('discipline', $discipline)
             ->setParameter('date', $snapshotDate)
             ->orderBy('r.position', 'ASC')
             ->getQuery()

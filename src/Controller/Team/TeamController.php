@@ -20,7 +20,7 @@ final class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/team/{id}--{slug}', name: 'team_show', requirements: ['id' => '\d+'])]
+    #[Route('/team/{id}-{slug}', name: 'team_show', requirements: ['id' => '\d+'])]
     public function showTeam(#[MapEntity(id: 'id')] Team $team, string $slug): Response
     {
         if ($slug !== $team->getSlug()) {

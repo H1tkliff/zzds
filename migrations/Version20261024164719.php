@@ -19,23 +19,23 @@ final class Version20261024164719 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // Spalten erst nullable anlegen, mit Daten füllen, dann NOT NULL setzen –
-        // sonst schlagen Unique-Index/Foreign Key auf bestehenden Zeilen fehl
+        // add columns as nullable first, fill them, then set NOT NULL –
+        // otherwise the unique index / foreign key fails on existing rows
 
-        // discipline.slug aus dem Namen ableiten ("CS2" → "cs2")
+        // derive discipline.slug from the name ("CS2" → "cs2")
         $this->addSql('ALTER TABLE discipline ADD slug VARCHAR(50) DEFAULT NULL');
         $this->addSql("UPDATE discipline SET slug = LOWER(REPLACE(name, ' ', '-'))");
         $this->addSql('ALTER TABLE discipline CHANGE slug slug VARCHAR(50) NOT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_75BEEE3F989D9B62 ON discipline (slug)');
 
-        // ranking.discipline vom Team übernehmen
+        // take ranking.discipline from the team
         $this->addSql('ALTER TABLE ranking ADD discipline_id INT DEFAULT NULL');
         $this->addSql('UPDATE ranking r JOIN team t ON t.id = r.team_id SET r.discipline_id = t.discipline_id');
         $this->addSql('ALTER TABLE ranking CHANGE discipline_id discipline_id INT NOT NULL');
         $this->addSql('ALTER TABLE ranking ADD CONSTRAINT FK_80B839D0A5522701 FOREIGN KEY (discipline_id) REFERENCES discipline (id)');
         $this->addSql('CREATE INDEX IDX_80B839D0A5522701 ON ranking (discipline_id)');
 
-        // team.name: leere Namen auffüllen
+        // team.name: fill empty names
         $this->addSql("UPDATE team SET name = CONCAT('team-', id) WHERE name IS NULL");
         $this->addSql('ALTER TABLE team CHANGE name name VARCHAR(255) NOT NULL');
     }

@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Symfony 6.4 / PHP 8.1 app (esports site, currently CS2: teams, players, rankings), running in Docker (`php` container on PHP's built-in server at http://localhost:8080, `database` container MySQL 8.0). Docs in `README.md` and `docs/` are written in German; Docker files are commented in Russian.
+Symfony 6.4 / PHP 8.1 app (esports site, currently CS2: teams, players, rankings), running in Docker (`php` container on PHP's built-in server at http://localhost:8080, `database` container MySQL 8.0). Docs in `README.md` and `docs/` are written in German.
+
+**All code comments in files tracked by git must be in English** (PHP, Twig, YAML, Makefile, Dockerfile, migrations, JS/SCSS). Fixture data (team/player names) may stay in any language.
 
 ## Commands
 

@@ -19,11 +19,11 @@ class RankingChangeResolver
             return [];
         }
 
-        $current = $this->rankingRepository->findBySnapshotDate($latest);
+        $current = $this->rankingRepository->findBySnapshotDate($discipline, $latest);
 
-        $previousDate = $this->rankingRepository->findPreviousSnapshotDate($latest);
+        $previousDate = $this->rankingRepository->findPreviousSnapshotDate($discipline, $latest);
         $previous = null !== $previousDate
-            ? $this->rankingRepository->findBySnapshotDate($previousDate)
+            ? $this->rankingRepository->findBySnapshotDate($discipline, $previousDate)
             : [];
 
         $result = [];

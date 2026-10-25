@@ -1,6 +1,6 @@
 name: CI
 
-# push только на master, иначе для ветки с открытым PR всё запускается дважды
+# push only on master, otherwise a branch with an open PR runs everything twice
 on:
   push:
     branches: [master]
@@ -9,6 +9,17 @@ on:
 jobs:
   php:
     runs-on: ubuntu-latest
+    services:
+      database:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-retries=10
+    env:
+      # PHP runs directly on the runner, not in the docker-compose network → 127.0.0.1 instead of "database"
+      # (real environment variables take precedence over .env.test)
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/symfony_app?serverVersion=8.0.32&charset=utf8mb4
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -21,7 +32,12 @@ jobs:
           node-version: 22
       - run: npm ci && npm run build
       - run: vendor/bin/php-cs-fixer fix --dry-run --diff
-      # phpstan-symfony читает var/cache/dev/App_KernelDevDebugContainer.xml
+      # phpstan-symfony reads var/cache/dev/App_KernelDevDebugContainer.xml
       - run: php bin/console cache:warmup --env=dev
       - run: vendor/bin/phpstan analyse --no-progress
-      # shortcut: тесты отложены; когда появятся .env.test и тестовая БД — вернуть сюда сервис mysql и phpunit
+      - name: Test database
+        run: |
+          php bin/console doctrine:database:create --env=test
+          php bin/console doctrine:migrations:migrate -n --env=test
+          php bin/console doctrine:fixtures:load -n --env=test
+      - run: php bin/phpunit
